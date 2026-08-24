@@ -1,0 +1,25 @@
+#BlueJ class context
+#Sun Aug 23 19:08:02 COT 2026
+comment0.target=SlotMachine
+comment1.target=SlotMachine()
+comment10.target=boolean isWinner()
+comment11.target=void showWinner()
+comment12.target=void makeVisible()
+comment13.target=void makeInvisible()
+comment14.target=void exit()
+comment15.params=message
+comment15.target=void error(java.lang.String)
+comment2.params=pos
+comment2.target=void addWheel(int)
+comment3.params=pos
+comment3.target=void delWheel(int)
+comment4.params=pos color
+comment4.target=void addSymbol(int, java.lang.String)
+comment5.params=pos color
+comment5.target=void delSymbol(int, java.lang.String)
+comment6.params=wheel steps
+comment6.target=void spin(int, int)
+comment7.target=void spin()
+comment8.target=java.lang.String[] symbols()
+comment9.target=int distinctSymbols()
+numComments=16

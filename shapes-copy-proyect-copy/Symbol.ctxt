@@ -1,0 +1,16 @@
+#BlueJ class context
+#Sun Aug 23 19:06:17 COT 2026
+comment0.target=Symbol
+comment0.text=\r\n Representa un s\u00EDmbolo de la m\u00E1quina tragamonedas.\r\n
+comment1.params=color
+comment1.target=Symbol(java.lang.String)
+comment2.target=java.lang.String getColor()
+comment3.target=void makeVisible()
+comment4.target=void makeInvisible()
+comment5.params=distance
+comment5.target=void moveHorizontal(int)
+comment6.params=distance
+comment6.target=void moveVertical(int)
+comment7.params=x y
+comment7.target=void setPosition(int, int)
+numComments=8

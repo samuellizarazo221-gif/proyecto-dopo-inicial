@@ -1,0 +1,19 @@
+#BlueJ class context
+#Sun Aug 23 19:06:53 COT 2026
+comment0.target=Wheel
+comment0.text=\r\n Representa una rueda de la m\u00E1quina tragamonedas.\r\n
+comment1.target=Wheel()
+comment10.target=void updatePositions()
+comment2.params=x y
+comment2.target=Wheel(int, int)
+comment3.params=symbol
+comment3.target=void addSymbol(Symbol)
+comment4.params=color
+comment4.target=void delSymbol(java.lang.String)
+comment5.params=steps
+comment5.target=void spin(int)
+comment6.target=Symbol getCurrentSymbol()
+comment7.target=Symbol[] getSymbols()
+comment8.target=void makeVisible()
+comment9.target=void makeInvisible()
+numComments=11
