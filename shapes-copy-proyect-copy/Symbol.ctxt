@@ -1,16 +1,20 @@
 #BlueJ class context
-#Sun Aug 23 19:06:17 COT 2026
+#Thu Sep 10 19:14:46 COT 2026
 comment0.target=Symbol
-comment0.text=\r\n Representa un s\u00EDmbolo de la m\u00E1quina tragamonedas.\r\n
-comment1.params=color
-comment1.target=Symbol(java.lang.String)
+comment0.text=\r\n Representa un s\u00EDmbolo (identificado por un color) de la m\u00E1quina\r\n tragamonedas. Se dibuja como un Circle de ese color.\r\n
+comment1.params=color pos
+comment1.target=Symbol(java.lang.String, int)
+comment1.text=\r\n Crea un s\u00EDmbolo del color indicado, ubicado inicialmente en la\r\n posici\u00F3n horizontal pos. En la pr\u00E1ctica, la rueda que recibe\r\n este s\u00EDmbolo (ver Wheel.addSymbol) lo reubica de inmediato con\r\n su propia posici\u00F3n, as\u00ED que el valor de pos aqu\u00ED casi nunca\r\n importa fuera de ese contexto.\r\n
 comment2.target=java.lang.String getColor()
-comment3.target=void makeVisible()
-comment4.target=void makeInvisible()
-comment5.params=distance
-comment5.target=void moveHorizontal(int)
-comment6.params=distance
-comment6.target=void moveVertical(int)
-comment7.params=x y
-comment7.target=void setPosition(int, int)
-numComments=8
+comment2.text=\r\n Color de este s\u00EDmbolo.\r\n
+comment3.params=pos
+comment3.target=void setPosition(int)
+comment3.text=\r\n Reubica el s\u00EDmbolo en la posici\u00F3n horizontal pos (misma\r\n convenci\u00F3n de p\u00EDxeles que usan Wheel y Rectangle), a una\r\n altura fija de 50.\r\n
+comment4.target=void makeVisible()
+comment4.text=\r\n Hace visible el s\u00EDmbolo.\r\n
+comment5.target=void makeInvisible()
+comment5.text=\r\n Oculta el s\u00EDmbolo.\r\n
+comment6.params=colors
+comment6.target=int getDistinctSymbols(java.lang.String[])
+comment6.text=\r\n Cuenta cu\u00E1ntos colores distintos (ignorando nulos) hay en el\r\n arreglo recibido. Utilidad est\u00E1tica usada por\r\n SlotMachine.distinctSymbols().\r\n
+numComments=7
