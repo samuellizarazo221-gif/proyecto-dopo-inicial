@@ -27,21 +27,21 @@ public class Wheel
     }
     
     /**
-     * 
+     * Este metodo Bloquea una rueda en su posicion actual, no es posible hacer alguna accion sobre ella
      */
     public void lock(){
         isLock = true;
     }
     
     /**
-     * 
+     * Este metodo Desbloquea una rueda para que se pueda operar
      */
     public void unlock(){
         isLock = false;
     }
     
     /**
-     * 
+     * Verficficador para saber si una rueda es operable o no
      */
     public boolean isLocked(){
         return isLock;

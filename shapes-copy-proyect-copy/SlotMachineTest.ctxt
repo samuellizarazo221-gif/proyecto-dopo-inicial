@@ -1,0 +1,21 @@
+#BlueJ class context
+#Fri Sep 11 20:27:55 COT 2026
+comment0.target=SlotMachineTest
+comment0.text=\r\n The test class SlotMachineTest.\r\n\r\n @author  (your name)\r\n @version (a version number or a date)\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Preparamos una maquina con dos ruedas para las pruebas unitarias\r\n
+comment2.target=void shouldLockWheelAndPreventSpinOnIt()
+comment2.text=\r\n Debera bloquear una rueda existente y hacer que spin() sobre\r\n ella falle, sin cambiar el s\u00EDmbolo que estaba mostrando.\r\n
+comment3.target=void shouldNotLockNonexistentWheel()
+comment3.text=\r\n No debera permitir bloquear una rueda que no existe.\r\n
+comment4.target=void shouldUnlockWheelAndAllowSpinAgain()
+comment4.text=\r\n Debera al desbloquear una rueda previamente bloqueada, volver\r\n a permitir que spin() la gire con normalidad.\r\n
+comment5.target=void shouldNotUnlockNonexistentWheel()
+comment5.text=\r\n No debera permitir desbloquear una rueda que no existe.\r\n
+comment6.target=void shouldSwapContentsOfTwoWheels()
+comment6.text=\r\n Debera intercambiar el contenido completo (s\u00EDmbolo actual\r\n incluido) entre dos ruedas existentes y no bloqueadas.\r\n
+comment7.target=void shouldNotSwapWhenEitherWheelIsLocked()
+comment7.text=\r\n No debera permitir el swap si alguna de las dos ruedas\r\n involucradas est\u00E1 bloqueada; la configuraci\u00F3n debe quedar\r\n exactamente igual a como estaba.\r\n
+comment8.target=void shouldSetConfigurationWithSpinArray()
+comment9.target=void shouldFailSpinArrayWithInvalidColor()
+numComments=10

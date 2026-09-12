@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Sep 10 20:58:36 COT 2026
+#Fri Sep 11 19:32:03 COT 2026
 comment0.target=Wheel
 comment0.text=\r\n Representa una rueda de la m\u00E1quina tragamonedas.\r\n Cada rueda mantiene su propia lista de s\u00EDmbolos (pueden ser\r\n distintos de una rueda a otra) y recuerda cu\u00E1l de ellos est\u00E1\r\n mostrando actualmente. Todos los s\u00EDmbolos de una rueda comparten\r\n la misma posici\u00F3n horizontal (la de la ventana de la rueda), as\u00ED\r\n que solo el s\u00EDmbolo actual debe estar visible a la vez.\r\n
 comment1.target=Wheel()
@@ -18,11 +18,11 @@ comment14.text=\r\n Muestra la ventana de la rueda y su s\u00EDmbolo actual. Los
 comment15.target=void makeInvisible()
 comment15.text=\r\n Oculta la ventana de la rueda y todos sus s\u00EDmbolos.\r\n
 comment2.target=void lock()
-comment2.text=\r\n \r\n
+comment2.text=\r\n Este metodo Bloquea una rueda en su posicion actual, no es posible hacer alguna accion sobre ella\r\n
 comment3.target=void unlock()
-comment3.text=\r\n \r\n
+comment3.text=\r\n Este metodo Desbloquea una rueda para que se pueda operar\r\n
 comment4.target=boolean isLocked()
-comment4.text=\r\n \r\n
+comment4.text=\r\n Verficficador para saber si una rueda es operable o no\r\n
 comment5.params=x y
 comment5.target=Wheel(int, int)
 comment5.text=\r\n Crea una rueda vac\u00EDa y ubica su ventana en (x,y).\r\n

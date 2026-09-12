@@ -151,6 +151,45 @@ public class SlotMachine
         lastOperationOk = true;
     }
 
+    public void spin(int wheel, int steps) {
+        if (wheel < 0 || wheel >= wheels.size()) {
+            lastOperationOk = false;
+            return;
+        }
+        if (wheels.get(wheel).isLocked()) {
+            lastOperationOk = false;
+            return;
+        }
+
+        for (int i = 0; i < steps; i++) {
+            spin(wheel);
+            if (!lastOperationOk) {
+                return;
+            }
+        }
+        lastOperationOk = true;
+    }
+
+    public void spin(String[] setSymbols) {
+        if (setSymbols == null || setSymbols.length != wheels.size()) {
+            lastOperationOk = false;
+            return;
+        }
+
+        for (int i = 0; i < setSymbols.length; i++) {
+            if (wheels.get(i).isLocked()) {
+                lastOperationOk = false;
+                return;
+            }
+            boolean placed = wheels.get(i).placeSymbol(setSymbols[i]);
+            if (!placed) {
+                lastOperationOk = false;
+                return;
+            }
+        }
+        lastOperationOk = true;
+    }
+    
     /**
      * Colores de todos los símbolos que existen en la máquina (todas
      * las ruedas, todos sus símbolos, no solo el que está mostrando
