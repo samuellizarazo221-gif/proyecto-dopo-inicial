@@ -1,0 +1,11 @@
+#BlueJ class context
+#Wed Sep 30 23:10:22 COT 2026
+comment0.target=SlotMachineContest
+comment0.text=\r\n Resuelve y simula el problema de la marat\u00F3n (ICPC WF 2025,\r\n Problem I\: Slot Machine) usando SlotMachine \u00FAnicamente como\r\n "herramienta de prueba" ciega\: solve() jam\u00E1s lee los colores\r\n reales, solo usa spin(wheel,steps) y distinctSymbols().\r\n
+comment1.params=n
+comment1.target=int[][] solve(int)
+comment1.text=\r\n Crea una SlotMachine(n) invisible y calcula la secuencia de\r\n acciones {wheel, steps} que la lleva al jackpot, sin superar\r\n las 10 000 acciones. Devuelve esa secuencia.\r\n
+comment2.params=n
+comment2.target=void simulate(int)
+comment2.text=\r\n Resuelve una m\u00E1quina de tama\u00F1o n y la muestra ya en su\r\n configuraci\u00F3n ganadora.\r\n
+numComments=3

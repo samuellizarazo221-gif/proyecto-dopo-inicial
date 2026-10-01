@@ -8,10 +8,18 @@ import javax.swing.JOptionPane;
  */
 public class SlotMachine
 {
+    private static final int minWheels = 3;
+    private static final int maxWheels = 50;
+    private static final int cabinetMargin = 20;
+
     private ArrayList<Wheel> wheels;
     private boolean visible;
     private boolean lastOperationOk;
-
+    private Rectangle cabinet;
+    private int cabinetX;
+    private int cabinetY;
+    
+    
     /**
      * Crea una máquina sin ruedas, visible por defecto.
      */
@@ -20,21 +28,81 @@ public class SlotMachine
         wheels = new ArrayList<Wheel>();
         visible = true;
         lastOperationOk = true;
-    }
 
-    /**
-     * Inserta una rueda nueva y vacía en la posición pos.
-     */
-    public void addWheel(int pos)
-    {
-        if (pos < 0 || pos > wheels.size())
+        cabinet = new Rectangle();
+        cabinetX = 70;
+        cabinetY = 15;
+        cabinet.changeColor("black");
+
+        for (int pos = 1; pos <= minWheels; pos++)
         {
-            error("Posición de rueda inválida.");
-            return;
+            addWheel(pos);
         }
+    }
+    
+    /**
+     * Solucion de la maquina ciclo 3
+     */
+    public SlotMachine(int n){
+        wheels = new ArrayList<Wheel>();
+        visible = true; 
+        lastOperationOk = true;
+        
+        cabinet = new Rectangle();
+        cabinetX = 70;
+        cabinetY = 15;
+        cabinet.changeColor("black");
+        
+        int size = n;
+        if (size < minWheels) { 
+            size = minWheels; 
+        }
+        if (size > maxWheels) { 
+            size = maxWheels; 
+        }
+        
+        // Generar size colores hexadecimales distintos, uno por símbolo.
+        java.util.HashSet<String> usedColors = new java.util.HashSet<String>();
+        java.util.Random random = new java.util.Random();
 
-        Wheel wheel = new Wheel(50 + pos * 70, 50);
-        wheels.add(pos, wheel);
+        while (usedColors.size() < size){
+            String color = String.format("#%06x", random.nextInt(0x1000000));
+            usedColors.add(color);
+        }
+        
+        String[] palette = usedColors.toArray(new String[0]);
+        
+        for (int pos = 1; pos <= size; pos++){
+            addWheel(pos);
+            for (int c = 0; c < size; c++){
+                addSymbol(pos, palette[c]);
+            }
+        }
+    
+        for (int pos = 1; pos <= size; pos++){
+            spin(pos, random.nextInt(size));
+        }
+    
+        if (isJackpot()){
+            spin(1, 1);
+        }
+    
+        lastOperationOk = true;
+    }
+    
+    
+    /**
+     * Inserta una rueda nueva y vacía en la posición pos (1-based).
+     * Si pos es menor a 1 se usa la posición 1; si es mayor a la
+     * cantidad de ruedas más una, se agrega al final.
+     */
+    public void addWheel(int pos){
+        int clampedPos = clampPosition(pos, wheels.size() + 1);
+        int index = clampedPos - 1;
+
+        Wheel wheel = new Wheel(clampedPos);
+        wheels.add(index, wheel);
+        layoutMachine();
 
         if (visible)
         {
@@ -49,14 +117,16 @@ public class SlotMachine
      */
     public void delWheel(int pos)
     {
-        if (pos < 0 || pos >= wheels.size())
+        if (pos < 1 || pos > wheels.size())
         {
             error("No existe esa rueda.");
             return;
         }
 
-        wheels.get(pos).makeInvisible();
-        wheels.remove(pos);
+        int index = pos - 1;
+        wheels.get(index).makeInvisible();
+        wheels.remove(index);
+        layoutMachine();
         lastOperationOk = true;
     }
 
@@ -72,7 +142,7 @@ public class SlotMachine
         }
 
         Wheel wheel = wheels.get(pos);
-        wheel.addSymbol(new Symbol(color, 0));
+        wheel.addSymbol(new Symbol(color));
 
         if (visible)
         {
@@ -102,13 +172,13 @@ public class SlotMachine
      */
     public void placeSymbol(int wheel, String symbol)
     {
-        if (wheel < 0 || wheel >= wheels.size())
+        if (wheel < 1 || wheel >= wheels.size())
         {
             error("No existe esa rueda.");
             return;
         }
 
-        boolean placed = wheels.get(wheel).placeSymbol(symbol);
+        boolean placed = wheels.get(wheel - 1).placeSymbol(symbol);
 
         if (!placed)
         {
@@ -122,19 +192,23 @@ public class SlotMachine
     /**
      * Gira una rueda en particular, pasando a su siguiente símbolo.
      */
-    public void spin(int wheel){
-        if (wheel < 0 || wheel >= wheels.size())
+    public void spin(int wheel)
+    {
+        if (wheel < 1 || wheel > wheels.size())
         {
             error("No existe esa rueda.");
             return;
         }
-        
-        if (wheels.get(wheel).isLocked()){
+
+        Wheel target = wheels.get(wheel - 1);
+
+        if (target.isLocked())
+        {
             error("No se puede girar una rueda bloqueada.");
             return;
         }
 
-        wheels.get(wheel).newCurrentSymbol();
+        target.newCurrentSymbol();
         lastOperationOk = true;
     }
 
@@ -151,42 +225,41 @@ public class SlotMachine
         lastOperationOk = true;
     }
 
-    public void spin(int wheel, int steps) {
-        if (wheel < 0 || wheel >= wheels.size()) {
-            lastOperationOk = false;
-            return;
-        }
-        if (wheels.get(wheel).isLocked()) {
-            lastOperationOk = false;
+    public void spin(int wheel, int steps){
+        if (wheel < 1 || wheel > wheels.size())
+        {
+            error("No existe esa rueda.");
             return;
         }
 
-        for (int i = 0; i < steps; i++) {
-            spin(wheel);
-            if (!lastOperationOk) {
-                return;
-            }
+        Wheel target = wheels.get(wheel - 1);
+
+        if (target.isLocked())
+        {
+            error("No se puede girar una rueda bloqueada.");
+            return;
         }
+
+        target.spin(steps);
         lastOperationOk = true;
     }
 
-    public void spin(String[] setSymbols) {
-        if (setSymbols == null || setSymbols.length != wheels.size()) {
-            lastOperationOk = false;
+    public void spin(String[] setSymbols){
+        if (setSymbols == null || setSymbols.length != wheels.size())
+        {
+            error("La cantidad de símbolos no coincide con la cantidad de ruedas.");
             return;
         }
 
-        for (int i = 0; i < setSymbols.length; i++) {
-            if (wheels.get(i).isLocked()) {
-                lastOperationOk = false;
-                return;
-            }
-            boolean placed = wheels.get(i).placeSymbol(setSymbols[i]);
-            if (!placed) {
-                lastOperationOk = false;
+        for (int i = 0; i < setSymbols.length; i++)
+        {
+            if (!wheels.get(i).placeSymbol(setSymbols[i]))
+            {
+                error("Una de las ruedas no tiene un símbolo de ese color.");
                 return;
             }
         }
+
         lastOperationOk = true;
     }
     
@@ -247,28 +320,30 @@ public class SlotMachine
     public boolean isJackpot()
     {
         lastOperationOk = true;
+        boolean jackpot = false;
 
-        if (wheels.isEmpty())
+        if (!wheels.isEmpty())
         {
-            return false;
-        }
+            Symbol reference = wheels.get(0).currentSymbol();
 
-        Symbol reference = wheels.get(0).currentSymbol();
-
-        if (reference == null)
-        {
-            return false;
-        }
-
-        for (Wheel wheel : wheels)
-        {
-            if (!wheel.allSymbolMatch(reference))
+            if (reference != null)
             {
-                return false;
+                jackpot = true;
+
+                for (Wheel wheel : wheels)
+                {
+                    if (!wheel.allSymbolMatch(reference))
+                    {
+                        jackpot = false;
+                        break;
+                    }
+                }
             }
         }
 
-        if (visible)
+        cabinet.changeColor(jackpot ? "gold" : "black");
+
+        if (jackpot && visible)
         {
             JOptionPane.showMessageDialog(
                 null,
@@ -276,7 +351,7 @@ public class SlotMachine
             );
         }
 
-        return true;
+        return jackpot;
     }
 
     /**
@@ -285,6 +360,7 @@ public class SlotMachine
     public void makeVisible()
     {
         visible = true;
+        cabinet.makeVisible();
 
         for (Wheel wheel : wheels)
         {
@@ -300,6 +376,7 @@ public class SlotMachine
     public void makeInvisible()
     {
         visible = false;
+        cabinet.makeInvisible();
 
         for (Wheel wheel : wheels)
         {
@@ -322,6 +399,7 @@ public class SlotMachine
             wheel.makeInvisible();
         }
 
+        cabinet.makeInvisible();
         wheels.clear();
         lastOperationOk = true;
     }
@@ -352,11 +430,11 @@ public class SlotMachine
      * Bloquea una rueda, no permite hacer spin sobre ella
      */
     public void lock(int wheel){
-        if(wheel < 0 || wheel >= wheels.size()){
+        if(wheel < 1 || wheel >= wheels.size()){
             error("No existe esa rueda.");
             return;
         }
-        wheels.get(wheel).lock();
+        wheels.get(wheel - 1).lock();
         lastOperationOk = true;
     }
     
@@ -364,7 +442,7 @@ public class SlotMachine
      * Desbloquea una rueda pudiendo volver a usar spin sobre ella
      */
     public void unlock(int wheel){
-        if (wheel < 0 || wheel >= wheels.size())
+        if (wheel < 1 || wheel >= wheels.size())
         {
             error("No existe esa rueda.");
             return;
@@ -382,13 +460,13 @@ public class SlotMachine
      * dos está bloqueada.
      */
     public void swap(int wheel1, int wheel2){
-        if (wheel1 < 0 || wheel1 >= wheels.size() || wheel2 < 0 || wheel2 >= wheels.size()){
-        error("No existe alguna de esas ruedas.");
-        return;
+        if (wheel1 < 1 || wheel1 >= wheels.size() || wheel2 < 1 || wheel2 >= wheels.size()){
+            error("No existe alguna de esas ruedas.");
+            return;
         }
 
-        Wheel w1 = wheels.get(wheel1);
-        Wheel w2 = wheels.get(wheel2);
+        Wheel w1 = wheels.get(wheel1-1);
+        Wheel w2 = wheels.get(wheel2-1);
 
         if (w1.isLocked() || w2.isLocked()){
             error("No se puede intercambiar una rueda bloqueada.");
@@ -396,9 +474,67 @@ public class SlotMachine
         }
 
         if (wheel1 != wheel2){
-        w1.swapContent(w2);
+            w1.swapContent(w2);
         }
 
         lastOperationOk = true;
     } 
+    
+    /**
+     * Recalcula el tamaño/posición del gabinete y reubica todas las
+     * ruedas según su índice actual (1-based), para que queden
+     * parejas y sin huecos tras un addWheel/delWheel.
+     */
+    private void layoutMachine(){
+    for (int i = 0; i < wheels.size(); i++)
+    {
+        wheels.get(i).relocate(i + 1);
+    }
+
+    if (wheels.isEmpty())
+    {
+        cabinet.makeInvisible();
+        return;
+    }
+
+    int width = (wheels.size() - 1) * Wheel.SPACING + Wheel.WIDTH + 2 * cabinetMargin;
+    int height = Wheel.HEIGHT + 2 * cabinetMargin;
+    int x = Wheel.BASE_X - cabinetMargin;
+    int y = Wheel.BASE_Y - cabinetMargin;
+
+    cabinet.changeSize(height, width);
+    cabinet.moveHorizontal(x - cabinetX);
+    cabinet.moveVertical(y - cabinetY);
+    cabinetX = x;
+    cabinetY = y;
+
+    if (visible)
+    {
+        cabinet.makeVisible();
+
+        // El cabinet acaba de redibujarse y quedó "encima" de todo;
+        // volvemos a mostrar cada rueda para que queden por delante.
+        for (Wheel wheel : wheels)
+        {
+            wheel.makeVisible();
+        }
+    }
+    }
+
+    /**
+     * Ajusta pos al rango [1, max]: si es menor a 1 devuelve 1, si es
+     * mayor a max devuelve max.
+     */
+    private int clampPosition(int pos, int max)
+    {
+        if (pos < 1)
+        {
+            return 1;
+        }
+        if (pos > max)
+        {
+            return max;
+        }
+        return pos;
+    }
 }

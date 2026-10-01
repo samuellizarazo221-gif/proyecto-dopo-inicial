@@ -1,0 +1,33 @@
+#BlueJ class context
+#Wed Sep 30 23:10:22 COT 2026
+comment0.target=WheelTest
+comment0.text=\r\n Pruebas de unidad de los metodos principales de Wheel.\r\n Nunca se llama makeVisible, asi no se abre ninguna ventana.\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Antes de cada prueba\: una rueda con tres simbolos (red, blue, green).\r\n El simbolo actual queda en red.\r\n
+comment10.target=void shouldPlaceExistingSymbol()
+comment10.text=\r\n placeSymbol debe poner como actual el simbolo del color pedido y\r\n devolver true; si no existe, devuelve false y no cambia nada.\r\n
+comment11.target=void shouldDeleteSymbolByColor()
+comment11.text=\r\n delSymbol debe quitar el simbolo del color dado; si era el actual\r\n (el ultimo), la rueda vuelve al primero. Si el color no existe,\r\n no pasa nada.\r\n
+comment12.target=void shouldSwapContentWithOtherWheel()
+comment12.text=\r\n swapContent debe intercambiar los simbolos y el simbolo actual\r\n entre las dos ruedas.\r\n
+comment13.target=void shouldCompareCurrentSymbolColor()
+comment13.text=\r\n allSymbolMatch debe dar true solo si el simbolo actual tiene el mismo\r\n color que el recibido; con null o con rueda vacia da false.\r\n
+comment14.target=void shouldReturnCopyOfSymbols()
+comment14.text=\r\n getSymbols debe devolver una copia\: si se modifica la lista que\r\n devuelve, la rueda no cambia.\r\n
+comment2.target=void shouldCreateEmptyUnlockedWheel()
+comment2.text=\r\n El constructor debe crear una rueda vacia y desbloqueada.\r\n
+comment3.target=void shouldAddSymbolsInOrder()
+comment3.text=\r\n addSymbol debe agregar al final y el primero que entra queda como actual.\r\n
+comment4.target=void shouldReturnCurrentSymbol()
+comment4.text=\r\n currentSymbol debe devolver null si la rueda esta vacia, y si no,\r\n el simbolo que esta mostrando.\r\n
+comment5.target=void shouldAdvanceToNextSymbolCyclically()
+comment5.text=\r\n newCurrentSymbol debe avanzar al siguiente simbolo, dar la vuelta\r\n al llegar al final y devolver null si la rueda esta vacia.\r\n
+comment6.target=void shouldSpinTheGivenSteps()
+comment6.text=\r\n spin debe avanzar la cantidad de pasos pedida (con vuelta completa\r\n queda igual) y no fallar si la rueda esta vacia.\r\n
+comment7.target=void shouldLockWheel()
+comment7.text=\r\n lock debe dejar la rueda bloqueada.\r\n
+comment8.target=void shouldUnlockWheel()
+comment8.text=\r\n unlock debe dejar la rueda desbloqueada otra vez.\r\n
+comment9.target=void shouldReportIfWheelIsLocked()
+comment9.text=\r\n isLocked debe ser false al inicio y true despues de bloquear.\r\n
+numComments=15

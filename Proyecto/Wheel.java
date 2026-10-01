@@ -17,15 +17,82 @@ public class Wheel
     private int xPosition;
     private int yPosition;
     private boolean isLock;
+    private boolean visible;
+    
+    public static final int WIDTH = 60;
+    public static final int HEIGHT = 60;
+    public static final int SPACING = 90;   // separación entre el x de una rueda y la siguiente
+    public static final int BASE_X = 60;    // x de la primera rueda (índice 0)
+    public static final int BASE_Y = 80;    // y fija para todas las ruedas
     
     /**
-     * Crea una rueda vacía en la posición por defecto (50,50).
+     * Crea una rueda vacía, ubicada en la posición horizontal que le
+     * corresponde a su posición pos (1-based: la primera rueda es 1).
      */
-    public Wheel()
+    public Wheel(int pos)
     {
-        this(50, 50);
+        symbols = new ArrayList<Symbol>();
+        currentPosition = 0;
+        isLock = false;
+        visible = false;
+        xPosition = BASE_X + (pos - 1) * SPACING;
+        yPosition = BASE_Y;
+
+        slot = new Rectangle();
+        slot.changeSize(HEIGHT, WIDTH);
+        slot.moveHorizontal(xPosition - 70);
+        slot.moveVertical(yPosition - 15);
+        slot.changeColor("white");
     }
     
+    /**
+     * Reubica esta rueda (su ventana y todos sus símbolos) en la
+     * posición horizontal correspondiente a pos (1-based). Se usa
+     * después de cualquier addWheel/delWheel para que todas las ruedas
+     * queden parejas y sin huecos visuales.
+     */
+    void relocate(int pos)
+    {
+        int newX = BASE_X + (pos - 1) * SPACING;
+        int deltaX = newX - xPosition;
+
+        if (deltaX != 0){
+        slot.moveHorizontal(deltaX);
+
+        for (Symbol symbol : symbols)
+        {
+            symbol.moveHorizontal(deltaX);
+        }
+
+        xPosition = newX;
+        }
+    }
+    
+    /**
+     * Avanza steps veces, mostrando el giro paso a paso si la rueda
+     * está visible. Los últimos pasos se muestran más lentos que los
+     * primeros, para dar sensación de que la rueda frena en vez de
+     * detenerse de golpe.
+     */
+    public void spin(int steps)
+    {
+        if (symbols.isEmpty())
+        {
+            return;
+        }
+
+        for (int i = 0; i < steps; i++)
+        {
+            newCurrentSymbol();
+
+        if (visible)
+        {
+            int remaining = steps - i;
+            int pause = (remaining <= 3) ? 250 + (4 - remaining) * 150 : 80;
+            Canvas.getCanvas().wait(pause);
+        }
+        }
+    }
     /**
      * Este metodo Bloquea una rueda en su posicion actual, no es posible hacer alguna accion sobre ella
      */
@@ -80,11 +147,11 @@ public class Wheel
     
         
         for (Symbol symbol : this.symbols){
-            symbol.setPosition(this.xPosition);
+            symbol.setPosition(this.centeredX(), this.centeredY());
         }
-        
+
         for (Symbol symbol : other.symbols){
-            symbol.setPosition(other.xPosition);
+            symbol.setPosition(other.centeredX(), other.centeredY());
         }
     
         
@@ -105,11 +172,18 @@ public class Wheel
      * debe decidir qué símbolos tiene cada rueda (por eso no aparece
      * con "+" en el diagrama de clases).
      */
-    void addSymbol(Symbol symbol)
-    {
-        symbol.setPosition(xPosition);
+    void addSymbol(Symbol symbol){
+        symbol.setPosition(centeredX(), centeredY());
         symbols.add(symbol);
     }
+
+    private int centeredX(){
+        return xPosition + (WIDTH - Symbol.DIAMETER) / 2;
+    }
+
+    private int centeredY(){
+        return yPosition + (HEIGHT - Symbol.DIAMETER) / 2;
+    }   
 
     /**
      * Elimina de esta rueda el primer símbolo cuyo color sea igual a
@@ -202,8 +276,7 @@ public class Wheel
      * que el símbolo recibido. Se usa para comparar todas las ruedas
      * entre sí al verificar el jackpot.
      */
-    public boolean allSymbolMatch(Symbol currentSymbol)
-    {
+    public boolean allSymbolMatch(Symbol currentSymbol){
         Symbol mine = currentSymbol();
 
         if (mine == null || currentSymbol == null)
@@ -213,30 +286,22 @@ public class Wheel
 
         return mine.getColor().equals(currentSymbol.getColor());
     }
-
-    /**
-     * Muestra la ventana de la rueda y su símbolo actual. Los demás
-     * símbolos de la rueda permanecen ocultos: comparten la misma
-     * posición y se verían superpuestos.
-     */
-    public void makeVisible()
-    {
+            
+        public void makeVisible(){
+        visible = true;
         slot.makeVisible();
         Symbol current = currentSymbol();
-
+    
         if (current != null)
         {
             current.makeVisible();
         }
     }
-
-    /**
-     * Oculta la ventana de la rueda y todos sus símbolos.
-     */
-    public void makeInvisible()
-    {
+    
+    public void makeInvisible(){
+        visible = false;
         slot.makeInvisible();
-
+    
         for (Symbol symbol : symbols)
         {
             symbol.makeInvisible();

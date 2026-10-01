@@ -1,0 +1,19 @@
+#BlueJ class context
+#Wed Sep 30 23:10:22 COT 2026
+comment0.target=SymbolTest
+comment0.text=\r\n Pruebas de unidad  Symbol, una por cada metodo.\r\n
+comment1.target=void shouldCreateSymbolWithGivenColor()
+comment1.text=\r\n El constructor debe crear el simbolo con el color que le pasamos.\r\n
+comment2.target=void shouldReturnOwnColor()
+comment2.text=\r\n getColor debe devolver el color de cada simbolo, sin mezclarlos.\r\n
+comment3.target=void shouldMoveHorizontally()
+comment3.text=\r\n moveHorizontal no debe fallar con valores positivos, negativos ni cero.\r\n (Symbol no dice donde esta, asi que solo revisamos que no se dane.)\r\n
+comment4.target=void shouldSetPosition()
+comment4.text=\r\n setPosition debe poder ubicar el simbolo sin fallar.\r\n
+comment5.target=void shouldMakeVisible()
+comment5.text=\r\n makeVisible debe poder llamarse (incluso dos veces) sin fallar.\r\n
+comment6.target=void shouldMakeInvisible()
+comment6.text=\r\n makeInvisible debe poder llamarse, este visible o no, sin fallar.\r\n
+comment7.target=void shouldCountDistinctColors()
+comment7.text=\r\n getDistinctSymbols debe contar los colores distintos, sin contar\r\n los repetidos ni los nulos.\r\n
+numComments=8
