@@ -1,0 +1,21 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=SlotMachineContestTest
+comment0.text=\r\n Pruebas de unidad del ciclo 3\: constructor SlotMachine(n) y soluci\u00F3n\r\n del problema de la marat\u00F3n (siempre en modo invisible).\r\n
+comment1.target=void shouldCreateMachineWithSameNumberOfWheelsAndSymbols()
+comment1.text=\r\n Deber\u00EDa crear una m\u00E1quina con n ruedas y n s\u00EDmbolos distintos en\r\n cada rueda, todas con los s\u00EDmbolos en el mismo orden.\r\n
+comment2.target=void shouldCreateMachineThatIsNotAWinner()
+comment2.text=\r\n Deber\u00EDa crear una m\u00E1quina que no empieza ganando.\r\n
+comment3.target=void shouldCreateDifferentColorsForEverySymbol()
+comment3.text=\r\n Deber\u00EDa crear s\u00EDmbolos de colores todos distintos.\r\n
+comment4.target=void shouldNotSolveOutOfRangeSizes()
+comment4.text=\r\n No deber\u00EDa resolver tama\u00F1os fuera del rango del problema.\r\n
+comment5.target=void shouldReturnValidActions()
+comment5.text=\r\n Deber\u00EDa devolver acciones v\u00E1lidas\: a lo sumo una por rueda, con\r\n rueda existente y giro distinto de cero.\r\n
+comment6.target=void shouldSolveEverySize()
+comment6.text=\r\n Deber\u00EDa dejar ganadora cualquier m\u00E1quina de 3 a 50 ruedas.\r\n
+comment7.target=void shouldWinWhenReplayingTheReturnedActions()
+comment7.text=\r\n Deber\u00EDa llevar la m\u00E1quina a ganar al repetir las acciones que\r\n devolvi\u00F3 desde la configuraci\u00F3n inicial.\r\n
+comment8.target=void shouldSolveSymmetricConfigurations()
+comment8.text=\r\n Deber\u00EDa resolver configuraciones dif\u00EDciles\: todas las ruedas\r\n distintas y configuraciones con simetr\u00EDa.\r\n
+numComments=9

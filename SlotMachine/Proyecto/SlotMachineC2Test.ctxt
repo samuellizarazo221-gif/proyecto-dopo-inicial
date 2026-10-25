@@ -1,0 +1,29 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=SlotMachineC2Test
+comment0.text=\r\n Pruebas de unidad del ciclo 2 de SlotMachine (siempre en modo\r\n invisible)\: intercambiar, fijar y soltar, girar pasos y dejar una\r\n configuraci\u00F3n. La m\u00E1quina de prueba tiene dos ruedas\: la 1 con red y\r\n blue (muestra red) y la 2 con green, yellow y pink (muestra green).\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Prepara la m\u00E1quina de prueba.\r\n
+comment10.target=void shouldNotMoveWithZeroStepsOrWhenLocked()
+comment10.text=\r\n No deber\u00EDa cambiar nada con cero pasos ni al girar una rueda\r\n fijada con pasos.\r\n
+comment11.target=void shouldSetGivenConfiguration()
+comment11.text=\r\n Deber\u00EDa dejar la m\u00E1quina en la configuraci\u00F3n dada.\r\n
+comment12.target=void shouldNotChangeAnythingWithInvalidConfiguration()
+comment12.text=\r\n No deber\u00EDa cambiar ninguna rueda si la configuraci\u00F3n dada no es\r\n v\u00E1lida (cantidad distinta, color que falta o rueda bloqueada).\r\n
+comment2.target=void shouldSwapTwoWheels()
+comment2.text=\r\n Deber\u00EDa intercambiar todos los s\u00EDmbolos de dos ruedas.\r\n
+comment3.target=void shouldKeepEverythingWhenSwappingAWheelWithItself()
+comment3.text=\r\n Deber\u00EDa dejar todo igual al intercambiar una rueda consigo misma.\r\n
+comment4.target=void shouldNotSwapWhenAWheelIsLocked()
+comment4.text=\r\n No deber\u00EDa intercambiar si alguna rueda est\u00E1 bloqueada y debe dejar\r\n la configuraci\u00F3n igual.\r\n
+comment5.target=void shouldNotSwapInEmptyMachine()
+comment5.text=\r\n No deber\u00EDa intercambiar en una m\u00E1quina sin ruedas.\r\n
+comment6.target=void shouldLockAndUnlockWheel()
+comment6.text=\r\n Deber\u00EDa impedir girar una rueda fijada y permitirlo al soltarla.\r\n
+comment7.target=void shouldIgnoreLockedWheelWhenSpinningAllOrPlacing()
+comment7.text=\r\n Deber\u00EDa saltarse las ruedas fijadas cuando se giran todas, y no\r\n dejar cambiar el s\u00EDmbolo de una rueda fijada.\r\n
+comment8.target=void shouldSpinSeveralSteps()
+comment8.text=\r\n Deber\u00EDa girar varios pasos de forma c\u00EDclica.\r\n
+comment9.target=void shouldSpinNegativeAndHugeSteps()
+comment9.text=\r\n Deber\u00EDa aceptar pasos negativos y pasos enormes.\r\n
+numComments=13

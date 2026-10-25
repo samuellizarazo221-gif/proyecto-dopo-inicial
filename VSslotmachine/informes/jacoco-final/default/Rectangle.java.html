@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Rectangle.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Rectangle.java</span></div><h1>Rectangle.java</h1><pre class="source lang-java linenums">import java.awt.*;
+
+/**
+ * A rectangle that can be manipulated and that draws itself on a canvas.
+ * 
+ * @author  Michael Kolling and David J. Barnes (Modified)
+ * @version 1.0  (15 July 2000)()
+ */
+
+
+ 
+public class Rectangle{
+
+    public static final int EDGES = 4;
+    
+    private int height;
+    private int width;
+    private int xPosition;
+    private int yPosition;
+    private String color;
+    private boolean isVisible;
+
+    /**
+     * Create a new rectangle at default position with default color.
+     */
+<span class="fc" id="L26">    public Rectangle(){</span>
+<span class="fc" id="L27">        height = 30;</span>
+<span class="fc" id="L28">        width = 40;</span>
+<span class="fc" id="L29">        xPosition = 70;</span>
+<span class="fc" id="L30">        yPosition = 15;</span>
+<span class="fc" id="L31">        color = &quot;magenta&quot;;</span>
+<span class="fc" id="L32">        isVisible = false;</span>
+<span class="fc" id="L33">    }</span>
+    
+
+    /**
+     * Make this rectangle visible. If it was already visible, do nothing.
+     */
+    public void makeVisible(){
+<span class="nc" id="L40">        isVisible = true;</span>
+<span class="nc" id="L41">        draw();</span>
+<span class="nc" id="L42">    }</span>
+    
+    /**
+     * Make this rectangle invisible. If it was already invisible, do nothing.
+     */
+    public void makeInvisible(){
+<span class="fc" id="L48">        erase();</span>
+<span class="fc" id="L49">        isVisible = false;</span>
+<span class="fc" id="L50">    }</span>
+    
+    /**
+     * Move the rectangle a few pixels to the right.
+     */
+    public void moveRight(){
+<span class="fc" id="L56">        moveHorizontal(20);</span>
+<span class="fc" id="L57">    }</span>
+
+    /**
+     * Move the rectangle a few pixels to the left.
+     */
+    public void moveLeft(){
+<span class="fc" id="L63">        moveHorizontal(-20);</span>
+<span class="fc" id="L64">    }</span>
+
+    /**
+     * Move the rectangle a few pixels up.
+     */
+    public void moveUp(){
+<span class="fc" id="L70">        moveVertical(-20);</span>
+<span class="fc" id="L71">    }</span>
+
+    /**
+     * Move the rectangle a few pixels down.
+     */
+    public void moveDown(){
+<span class="fc" id="L77">        moveVertical(20);</span>
+<span class="fc" id="L78">    }</span>
+
+    /**
+     * Move the rectangle horizontally.
+     * @param distance the desired distance in pixels
+     */
+    public void moveHorizontal(int distance){
+<span class="fc" id="L85">        erase();</span>
+<span class="fc" id="L86">        xPosition += distance;</span>
+<span class="fc" id="L87">        draw();</span>
+<span class="fc" id="L88">    }</span>
+
+    /**
+     * Move the rectangle vertically.
+     * @param distance the desired distance in pixels
+     */
+    public void moveVertical(int distance){
+<span class="fc" id="L95">        erase();</span>
+<span class="fc" id="L96">        yPosition += distance;</span>
+<span class="fc" id="L97">        draw();</span>
+<span class="fc" id="L98">    }</span>
+
+    /**
+     * Slowly move the rectangle horizontally.
+     * @param distance the desired distance in pixels
+     */
+    public void slowMoveHorizontal(int distance){
+        int delta;
+
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if(distance &lt; 0) {</span>
+<span class="fc" id="L108">            delta = -1;</span>
+<span class="fc" id="L109">            distance = -distance;</span>
+        } else {
+<span class="fc" id="L111">            delta = 1;</span>
+        }
+
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        for(int i = 0; i &lt; distance; i++){</span>
+<span class="fc" id="L115">            xPosition += delta;</span>
+<span class="fc" id="L116">            draw();</span>
+        }
+<span class="fc" id="L118">    }</span>
+
+    /**
+     * Slowly move the rectangle vertically.
+     * @param distance the desired distance in pixels
+     */
+    public void slowMoveVertical(int distance){
+        int delta;
+
+<span class="fc bfc" id="L127" title="All 2 branches covered.">        if(distance &lt; 0) {</span>
+<span class="fc" id="L128">            delta = -1;</span>
+<span class="fc" id="L129">            distance = -distance;</span>
+        } else {
+<span class="fc" id="L131">            delta = 1;</span>
+        }
+
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        for(int i = 0; i &lt; distance; i++){</span>
+<span class="fc" id="L135">            yPosition += delta;</span>
+<span class="fc" id="L136">            draw();</span>
+        }
+<span class="fc" id="L138">    }</span>
+
+    /**
+     * Change the size to the new size
+     * @param newHeight the new height in pixels. newHeight must be &gt;=0.
+     * @param newWidht the new width in pixels. newWidth must be &gt;=0.
+     */
+    public void changeSize(int newHeight, int newWidth) {
+<span class="fc" id="L146">        erase();</span>
+<span class="fc" id="L147">        height = newHeight;</span>
+<span class="fc" id="L148">        width = newWidth;</span>
+<span class="fc" id="L149">        draw();</span>
+<span class="fc" id="L150">    }</span>
+    
+    /**
+     * Change the color. 
+     * @param color the new color. Valid colors are &quot;red&quot;, &quot;yellow&quot;, &quot;blue&quot;, &quot;green&quot;,
+     * &quot;magenta&quot; and &quot;black&quot;.
+     */
+    public void changeColor(String newColor){
+<span class="fc" id="L158">        color = newColor;</span>
+<span class="fc" id="L159">        draw();</span>
+<span class="fc" id="L160">    }</span>
+
+    /*
+     * Draw the rectangle with current specifications on screen.
+     */
+
+    private void draw() {
+<span class="pc bpc" id="L167" title="1 of 2 branches missed.">        if(isVisible) {</span>
+<span class="nc" id="L168">            Canvas canvas = Canvas.getCanvas();</span>
+<span class="nc" id="L169">            canvas.draw(this, color,</span>
+                new java.awt.Rectangle(xPosition, yPosition, 
+                                       width, height));
+<span class="nc" id="L172">            canvas.wait(10);</span>
+        }
+<span class="fc" id="L174">    }</span>
+
+    /*
+     * Erase the rectangle on screen.
+     */
+    private void erase(){
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">        if(isVisible) {</span>
+<span class="nc" id="L181">            Canvas canvas = Canvas.getCanvas();</span>
+<span class="nc" id="L182">            canvas.erase(this);</span>
+        }
+<span class="fc" id="L184">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

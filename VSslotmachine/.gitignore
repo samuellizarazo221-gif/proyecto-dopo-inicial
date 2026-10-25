@@ -1,0 +1,7 @@
+target/
+bin/
+*.class
+*.ctxt
+.classpath
+.project
+.settings/

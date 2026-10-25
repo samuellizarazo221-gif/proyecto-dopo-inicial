@@ -1,0 +1,19 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=RebelWheel
+comment0.text=\r\n Rueda rebelde\: no se deja bloquear, ni intercambiar, ni eliminar. Se\r\n reconoce por su ventana color salm\u00F3n.\r\n
+comment1.target=RebelWheel()
+comment1.text=\r\n Crea una rueda rebelde vac\u00EDa con la geometr\u00EDa por defecto.\r\n
+comment2.target=java.lang.String type()
+comment2.text=\r\n Nombre del tipo de esta rueda.\r\n\r\n @return "rebel"\r\n
+comment3.target=void lock()
+comment3.text=\r\n Una rueda rebelde ignora el bloqueo.\r\n
+comment4.target=boolean isLockable()
+comment4.text=\r\n @return false\: no se deja bloquear\r\n
+comment5.target=boolean isSwappable()
+comment5.text=\r\n @return false\: no se deja intercambiar\r\n
+comment6.target=boolean isRemovable()
+comment6.text=\r\n @return false\: no se deja eliminar\r\n
+comment7.target=java.lang.String idleColor()
+comment7.text=\r\n Ventana color salm\u00F3n.\r\n
+numComments=8

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Canvas.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Canvas.java</span></div><h1>Canvas.java</h1><pre class="source lang-java linenums">import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+import java.util.*;
+
+/**
+ * Canvas is a class to allow for simple graphical drawing on a canvas.
+ * This is a modification of the general purpose Canvas, specially made for
+ * the BlueJ &quot;shapes&quot; example. 
+ *
+ * @author: Bruce Quig
+ * @author: Michael Kolling (mik)
+ *
+ * @version: 1.6 (shapes)
+ */
+public final class Canvas{
+    // Note: The implementation of this class (specifically the handling of
+    // shape identity and colors) is slightly more complex than necessary. This
+    // is done on purpose to keep the interface and instance fields of the
+    // shape objects in this project clean and simple for educational purposes.
+
+    private static Canvas canvasSingleton;
+
+    /**
+     * Factory method to get the canvas singleton object.
+     */
+    public static Canvas getCanvas(){
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if(canvasSingleton == null) {</span>
+<span class="nc" id="L29">            canvasSingleton = new Canvas(&quot;BlueJ Shapes Demo&quot;, 1000, 1000, </span>
+                                         Color.white);
+        }
+<span class="nc" id="L32">        canvasSingleton.setVisible(true);</span>
+<span class="nc" id="L33">        return canvasSingleton;</span>
+    }
+
+    //  ----- instance part -----
+
+    private JFrame frame;
+    private CanvasPane canvas;
+    private Graphics2D graphic;
+    private Color backgroundColour;
+    private Image canvasImage;
+    private List &lt;Object&gt; objects;
+    private HashMap &lt;Object,ShapeDescription&gt; shapes;
+    
+    /**
+     * Create a Canvas.
+     * @param title  title to appear in Canvas Frame
+     * @param width  the desired width for the canvas
+     * @param height  the desired height for the canvas
+     * @param bgClour  the desired background colour of the canvas
+     */
+<span class="nc" id="L53">    private Canvas(String title, int width, int height, Color bgColour){</span>
+<span class="nc" id="L54">        frame = new JFrame();</span>
+<span class="nc" id="L55">        canvas = new CanvasPane();</span>
+<span class="nc" id="L56">        frame.setContentPane(canvas);</span>
+<span class="nc" id="L57">        frame.setTitle(title);</span>
+<span class="nc" id="L58">        canvas.setPreferredSize(new Dimension(width, height));</span>
+<span class="nc" id="L59">        backgroundColour = bgColour;</span>
+<span class="nc" id="L60">        frame.pack();</span>
+<span class="nc" id="L61">        objects = new ArrayList &lt;Object&gt;();</span>
+<span class="nc" id="L62">        shapes = new HashMap &lt;Object,ShapeDescription&gt;();</span>
+<span class="nc" id="L63">    }</span>
+
+    /**
+     * Set the canvas visibility and brings canvas to the front of screen
+     * when made visible. This method can also be used to bring an already
+     * visible canvas to the front of other windows.
+     * @param visible  boolean value representing the desired visibility of
+     * the canvas (true or false) 
+     */
+    public void setVisible(boolean visible){
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if(graphic == null) {</span>
+            // first time: instantiate the offscreen image and fill it with
+            // the background colour
+<span class="nc" id="L76">            Dimension size = canvas.getSize();</span>
+<span class="nc" id="L77">            canvasImage = canvas.createImage(size.width, size.height);</span>
+<span class="nc" id="L78">            graphic = (Graphics2D)canvasImage.getGraphics();</span>
+<span class="nc" id="L79">            graphic.setColor(backgroundColour);</span>
+<span class="nc" id="L80">            graphic.fillRect(0, 0, size.width, size.height);</span>
+<span class="nc" id="L81">            graphic.setColor(Color.black);</span>
+        }
+<span class="nc" id="L83">        frame.setVisible(visible);</span>
+<span class="nc" id="L84">    }</span>
+
+    /**
+     * Draw a given shape onto the canvas.
+     * @param  referenceObject  an object to define identity for this shape
+     * @param  color            the color of the shape
+     * @param  shape            the shape object to be drawn on the canvas
+     */
+     // Note: this is a slightly backwards way of maintaining the shape
+     // objects. It is carefully designed to keep the visible shape interfaces
+     // in this project clean and simple for educational purposes.
+    public void draw(Object referenceObject, String color, Shape shape){
+<span class="nc" id="L96">        objects.remove(referenceObject);   // just in case it was already there</span>
+<span class="nc" id="L97">        objects.add(referenceObject);      // add at the end</span>
+<span class="nc" id="L98">        shapes.put(referenceObject, new ShapeDescription(shape, color));</span>
+<span class="nc" id="L99">        redraw();</span>
+<span class="nc" id="L100">    }</span>
+ 
+    /**
+     * Erase a given shape's from the screen.
+     * @param  referenceObject  the shape object to be erased 
+     */
+    public void erase(Object referenceObject){
+<span class="nc" id="L107">        objects.remove(referenceObject);   // just in case it was already there</span>
+<span class="nc" id="L108">        shapes.remove(referenceObject);</span>
+<span class="nc" id="L109">        redraw();</span>
+<span class="nc" id="L110">    }</span>
+
+    /**
+     * Set the foreground colour of the Canvas.
+     * @param  newColour   the new colour for the foreground of the Canvas 
+     */
+    public void setForegroundColor(String colorString){
+<span class="nc" id="L117">        Color color = toColor(colorString);</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        graphic.setColor(color == null ? Color.black : color);</span>
+<span class="nc" id="L119">    }</span>
+
+    /**
+     * Nombres de color del estándar CSS con su valor hexadecimal
+     * (formato nombre=rrggbb separado por punto y coma).
+     */
+    private static final String CSS_COLORS =
+        &quot;aliceblue=f0f8ff;antiquewhite=faebd7;aqua=00ffff;aquamarine=7fffd4;&quot;
+        + &quot;azure=f0ffff;beige=f5f5dc;bisque=ffe4c4;black=000000;&quot;
+        + &quot;blanchedalmond=ffebcd;blue=0000ff;blueviolet=8a2be2;brown=a52a2a;&quot;
+        + &quot;burlywood=deb887;cadetblue=5f9ea0;chartreuse=7fff00;&quot;
+        + &quot;chocolate=d2691e;coral=ff7f50;cornflowerblue=6495ed;&quot;
+        + &quot;cornsilk=fff8dc;crimson=dc143c;cyan=00ffff;darkblue=00008b;&quot;
+        + &quot;darkcyan=008b8b;darkgoldenrod=b8860b;darkgray=a9a9a9;&quot;
+        + &quot;darkgreen=006400;darkgrey=a9a9a9;darkkhaki=bdb76b;&quot;
+        + &quot;darkmagenta=8b008b;darkolivegreen=556b2f;darkorange=ff8c00;&quot;
+        + &quot;darkorchid=9932cc;darkred=8b0000;darksalmon=e9967a;&quot;
+        + &quot;darkseagreen=8fbc8f;darkslateblue=483d8b;darkslategray=2f4f4f;&quot;
+        + &quot;darkslategrey=2f4f4f;darkturquoise=00ced1;darkviolet=9400d3;&quot;
+        + &quot;deeppink=ff1493;deepskyblue=00bfff;dimgray=696969;dimgrey=696969;&quot;
+        + &quot;dodgerblue=1e90ff;firebrick=b22222;floralwhite=fffaf0;&quot;
+        + &quot;forestgreen=228b22;fuchsia=ff00ff;gainsboro=dcdcdc;&quot;
+        + &quot;ghostwhite=f8f8ff;gold=ffd700;goldenrod=daa520;gray=808080;&quot;
+        + &quot;grey=808080;green=008000;greenyellow=adff2f;honeydew=f0fff0;&quot;
+        + &quot;hotpink=ff69b4;indianred=cd5c5c;indigo=4b0082;ivory=fffff0;&quot;
+        + &quot;khaki=f0e68c;lavender=e6e6fa;lavenderblush=fff0f5;&quot;
+        + &quot;lawngreen=7cfc00;lemonchiffon=fffacd;lightblue=add8e6;&quot;
+        + &quot;lightcoral=f08080;lightcyan=e0ffff;lightgoldenrodyellow=fafad2;&quot;
+        + &quot;lightgray=d3d3d3;lightgreen=90ee90;lightgrey=d3d3d3;&quot;
+        + &quot;lightpink=ffb6c1;lightsalmon=ffa07a;lightseagreen=20b2aa;&quot;
+        + &quot;lightskyblue=87cefa;lightslategray=778899;lightslategrey=778899;&quot;
+        + &quot;lightsteelblue=b0c4de;lightyellow=ffffe0;lime=00ff00;&quot;
+        + &quot;limegreen=32cd32;linen=faf0e6;magenta=ff00ff;maroon=800000;&quot;
+        + &quot;mediumaquamarine=66cdaa;mediumblue=0000cd;mediumorchid=ba55d3;&quot;
+        + &quot;mediumpurple=9370db;mediumseagreen=3cb371;mediumslateblue=7b68ee;&quot;
+        + &quot;mediumspringgreen=00fa9a;mediumturquoise=48d1cc;&quot;
+        + &quot;mediumvioletred=c71585;midnightblue=191970;mintcream=f5fffa;&quot;
+        + &quot;mistyrose=ffe4e1;moccasin=ffe4b5;navajowhite=ffdead;navy=000080;&quot;
+        + &quot;oldlace=fdf5e6;olive=808000;olivedrab=6b8e23;orange=ffa500;&quot;
+        + &quot;orangered=ff4500;orchid=da70d6;palegoldenrod=eee8aa;&quot;
+        + &quot;palegreen=98fb98;paleturquoise=afeeee;palevioletred=db7093;&quot;
+        + &quot;papayawhip=ffefd5;peachpuff=ffdab9;peru=cd853f;pink=ffc0cb;&quot;
+        + &quot;plum=dda0dd;powderblue=b0e0e6;purple=800080;&quot;
+        + &quot;rebeccapurple=663399;red=ff0000;rosybrown=bc8f8f;&quot;
+        + &quot;royalblue=4169e1;saddlebrown=8b4513;salmon=fa8072;&quot;
+        + &quot;sandybrown=f4a460;seagreen=2e8b57;seashell=fff5ee;sienna=a0522d;&quot;
+        + &quot;silver=c0c0c0;skyblue=87ceeb;slateblue=6a5acd;slategray=708090;&quot;
+        + &quot;slategrey=708090;snow=fffafa;springgreen=00ff7f;steelblue=4682b4;&quot;
+        + &quot;tan=d2b48c;teal=008080;thistle=d8bfd8;tomato=ff6347;&quot;
+        + &quot;turquoise=40e0d0;violet=ee82ee;wheat=f5deb3;white=ffffff;&quot;
+        + &quot;whitesmoke=f5f5f5;yellow=ffff00;yellowgreen=9acd32&quot;;
+
+<span class="fc" id="L171">    private static final HashMap&lt;String, Color&gt; NAMED_COLORS = loadNamedColors();</span>
+
+    /**
+     * Construye la tabla de colores CSS a partir de CSS_COLORS.
+     */
+    private static HashMap&lt;String, Color&gt; loadNamedColors(){
+<span class="fc" id="L177">        HashMap&lt;String, Color&gt; table = new HashMap&lt;String, Color&gt;();</span>
+<span class="fc bfc" id="L178" title="All 2 branches covered.">        for(String entry : CSS_COLORS.split(&quot;;&quot;)) {</span>
+<span class="fc" id="L179">            String[] parts = entry.split(&quot;=&quot;);</span>
+<span class="fc" id="L180">            table.put(parts[0], new Color(Integer.parseInt(parts[1], 16)));</span>
+        }
+<span class="fc" id="L182">        return table;</span>
+    }
+
+    /**
+     * Convierte un color CSS (nombre estándar, &quot;#rgb&quot; o &quot;#rrggbb&quot;) en un
+     * Color de Java.
+     * @param colorString el color a convertir (no distingue mayúsculas)
+     * @return el Color, o null si el texto no es un color CSS válido
+     */
+    public static Color toColor(String colorString){
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if(colorString == null) {</span>
+<span class="nc" id="L193">            return null;</span>
+        }
+<span class="fc" id="L195">        String text = colorString.trim().toLowerCase();</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if(text.matches(&quot;#[0-9a-f]{6}&quot;)) {</span>
+<span class="fc" id="L197">            return new Color(Integer.parseInt(text.substring(1), 16));</span>
+        }
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if(text.matches(&quot;#[0-9a-f]{3}&quot;)) {</span>
+<span class="nc" id="L200">            String full = &quot;&quot; + text.charAt(1) + text.charAt(1)</span>
+<span class="nc" id="L201">                + text.charAt(2) + text.charAt(2)</span>
+<span class="nc" id="L202">                + text.charAt(3) + text.charAt(3);</span>
+<span class="nc" id="L203">            return new Color(Integer.parseInt(full, 16));</span>
+        }
+<span class="fc" id="L205">        return NAMED_COLORS.get(text);</span>
+    }
+
+    /**
+     * Indica si el texto es un color CSS válido.
+     * @param colorString el color a validar
+     * @return true si es un nombre CSS estándar o un valor hexadecimal
+     */
+    public static boolean isValidColor(String colorString){
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        return toColor(colorString) != null;</span>
+    }
+
+    /**
+     * Wait for a specified number of milliseconds before finishing.
+     * This provides an easy way to specify a small delay which can be
+     * used when producing animations.
+     * @param  milliseconds  the number 
+     */
+    public void wait(int milliseconds){
+        try{
+<span class="nc" id="L225">            Thread.sleep(milliseconds);</span>
+<span class="nc" id="L226">        } catch (Exception e){</span>
+            // ignoring exception at the moment
+<span class="nc" id="L228">        }</span>
+<span class="nc" id="L229">    }</span>
+
+    /**
+     * Redraw ell shapes currently on the Canvas.
+     */
+    private void redraw(){
+<span class="nc" id="L235">        erase();</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        for(Iterator i=objects.iterator(); i.hasNext(); ) {</span>
+<span class="nc" id="L237">                       shapes.get(i.next()).draw(graphic);</span>
+        }
+<span class="nc" id="L239">        canvas.repaint();</span>
+<span class="nc" id="L240">    }</span>
+       
+    /**
+     * Erase the whole canvas. (Does not repaint.)
+     */
+    private void erase(){
+<span class="nc" id="L246">        Color original = graphic.getColor();</span>
+<span class="nc" id="L247">        graphic.setColor(backgroundColour);</span>
+<span class="nc" id="L248">        Dimension size = canvas.getSize();</span>
+<span class="nc" id="L249">        graphic.fill(new java.awt.Rectangle(0, 0, size.width, size.height));</span>
+<span class="nc" id="L250">        graphic.setColor(original);</span>
+<span class="nc" id="L251">    }</span>
+
+
+    /************************************************************************
+     * Inner class CanvasPane - the actual canvas component contained in the
+     * Canvas frame. This is essentially a JPanel with added capability to
+     * refresh the image drawn on it.
+     */
+<span class="nc" id="L259">    private final class CanvasPane extends JPanel{</span>
+        public void paint(Graphics g){
+<span class="nc" id="L261">            g.drawImage(canvasImage, 0, 0, null);</span>
+<span class="nc" id="L262">        }</span>
+    }
+    
+    /************************************************************************
+     * Inner class CanvasPane - the actual canvas component contained in the
+     * Canvas frame. This is essentially a JPanel with added capability to
+     * refresh the image drawn on it.
+     */
+    private class ShapeDescription{
+        private Shape shape;
+        private String colorString;
+
+<span class="nc" id="L274">        public ShapeDescription(Shape shape, String color){</span>
+<span class="nc" id="L275">            this.shape = shape;</span>
+<span class="nc" id="L276">            colorString = color;</span>
+<span class="nc" id="L277">        }</span>
+
+        public void draw(Graphics2D graphic){
+<span class="nc" id="L280">            setForegroundColor(colorString);</span>
+<span class="nc" id="L281">            graphic.draw(shape);</span>
+<span class="nc" id="L282">            graphic.fill(shape);</span>
+<span class="nc" id="L283">        }</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

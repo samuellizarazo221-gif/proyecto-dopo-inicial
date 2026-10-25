@@ -1,0 +1,9 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=SlotMachineContestCTest
+comment0.text=\r\n Pruebas de unidad compartidas del ciclo 3 (creaci\u00F3n colectiva). El\r\n nombre de cada prueba incluye las iniciales de sus autores.\r\n
+comment1.target=void accordingBoLiShouldSolveSmallestMachine()
+comment1.text=\r\n Deber\u00EDa resolver la m\u00E1quina m\u00E1s peque\u00F1a del problema.\r\n
+comment2.target=void accordingBoLiShouldSolveLargestMachineWithAtMostOneActionPerWheel()
+comment2.text=\r\n Deber\u00EDa resolver la m\u00E1quina m\u00E1s grande del problema sin usar m\u00E1s\r\n de una acci\u00F3n neta por rueda.\r\n
+numComments=3

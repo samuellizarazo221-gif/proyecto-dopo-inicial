@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ShySymbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">ShySymbol.java</span></div><h1>ShySymbol.java</h1><pre class="source lang-java linenums">/**
+ * Símbolo tímido: cada vez que queda seleccionado en la ventana de su
+ * rueda alterna entre visible e invisible. Mientras está invisible la
+ * rueda no muestra ningún símbolo (la máquina no lo cuenta en su
+ * configuración). Se dibuja con un aro violeta.
+ */
+public class ShySymbol extends Symbol
+{
+    private static final String HALO_COLOR = &quot;mediumpurple&quot;;
+
+    private boolean hidden;
+
+    /**
+     * Crea un símbolo tímido del color indicado, inicialmente visible.
+     *
+     * @param color nombre CSS o valor &quot;#rrggbb&quot;
+     */
+    public ShySymbol(String color)
+    {
+<span class="fc" id="L20">        super(color, HALO_COLOR);</span>
+<span class="fc" id="L21">        hidden = false;</span>
+<span class="fc" id="L22">    }</span>
+
+    /**
+     * Tipo de este símbolo.
+     *
+     * @return &quot;shy&quot;
+     */
+    @Override
+    public String getType()
+    {
+<span class="fc" id="L32">        return &quot;shy&quot;;</span>
+    }
+
+    /**
+     * Indica si el símbolo está escondido en este momento.
+     *
+     * @return true mientras esté escondido
+     */
+    @Override
+    public boolean isHidden()
+    {
+<span class="fc" id="L43">        return hidden;</span>
+    }
+
+    /**
+     * El símbolo quedó seleccionado: alterna su estado de visible a
+     * invisible, o al revés.
+     */
+    @Override
+    void selected()
+    {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        hidden = !hidden;</span>
+<span class="fc" id="L54">        refresh();</span>
+<span class="fc" id="L55">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

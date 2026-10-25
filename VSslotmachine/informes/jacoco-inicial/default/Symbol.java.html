@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Symbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Symbol.java</span></div><h1>Symbol.java</h1><pre class="source lang-java linenums">import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+/**
+ * Representa un símbolo de la máquina tragamonedas. Un símbolo se
+ * identifica por su color (nombre CSS o valor hexadecimal) y se dibuja
+ * como un círculo de ese color (Circle de shapes).
+ *
+ * Esta clase es también el tipo &quot;normal&quot; y la base de los demás tipos de
+ * símbolos (EphemeralSymbol, ShySymbol). Cada tipo reacciona de forma
+ * distinta a dos eventos de su rueda: selected() (el símbolo queda en la
+ * ventana de la rueda) y spun() (la rueda giró). Los tipos distintos
+ * del normal se dibujan con un aro de color alrededor para poder
+ * distinguirlos. Para agregar un tipo nuevo basta crear la subclase y
+ * registrarla en TYPES.
+ */
+public class Symbol
+{
+    private static final int DEFAULT_X = 20;
+    private static final int DEFAULT_Y = 15;
+    private static final int DEFAULT_DIAMETER = 30;
+<span class="fc" id="L23">    private static final Map&lt;String, Function&lt;String, Symbol&gt;&gt; TYPES =</span>
+        new LinkedHashMap&lt;String, Function&lt;String, Symbol&gt;&gt;();
+
+    static
+    {
+<span class="fc" id="L28">        TYPES.put(&quot;normal&quot;, Symbol::new);</span>
+<span class="fc" id="L29">        TYPES.put(&quot;ephemeral&quot;, EphemeralSymbol::new);</span>
+<span class="fc" id="L30">        TYPES.put(&quot;shy&quot;, ShySymbol::new);</span>
+<span class="fc" id="L31">    }</span>
+
+    private String color;
+    private Ring body;
+    private Ring halo;
+    private int boxX;
+    private int boxY;
+    private int fullDiameter;
+    private boolean drawn;
+
+    /**
+     * Crea un símbolo normal del color indicado. El color se guarda sin
+     * espacios y en minúsculas para que dos símbolos del mismo color
+     * siempre sean comparables.
+     *
+     * @param color nombre CSS (por ejemplo &quot;red&quot;) o valor &quot;#rrggbb&quot;
+     */
+    public Symbol(String color)
+    {
+<span class="fc" id="L50">        this(color, null);</span>
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * Crea un símbolo con un aro de color que lo distingue de los demás
+     * tipos. Lo usan las subclases.
+     *
+     * @param color nombre CSS o valor &quot;#rrggbb&quot; del símbolo
+     * @param haloColor color del aro, o null si no lleva aro
+     */
+    Symbol(String color, String haloColor)
+<span class="fc" id="L61">    {</span>
+<span class="fc" id="L62">        this.color = normalize(color);</span>
+<span class="fc" id="L63">        body = new Ring(this.color);</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        halo = (haloColor == null) ? null : new Ring(haloColor);</span>
+<span class="fc" id="L65">        boxX = DEFAULT_X;</span>
+<span class="fc" id="L66">        boxY = DEFAULT_Y;</span>
+<span class="fc" id="L67">        fullDiameter = DEFAULT_DIAMETER;</span>
+<span class="fc" id="L68">        drawn = false;</span>
+<span class="fc" id="L69">    }</span>
+
+    /**
+     * Crea un símbolo del tipo y color indicados.
+     *
+     * @param type &quot;normal&quot;, &quot;ephemeral&quot; o &quot;shy&quot; (sin importar mayúsculas)
+     * @param color nombre CSS o valor &quot;#rrggbb&quot;
+     * @return el símbolo, o null si el tipo no existe
+     */
+    public static Symbol create(String type, String color)
+    {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">        String name = (type == null) ? null : type.trim().toLowerCase();</span>
+<span class="fc" id="L81">        Function&lt;String, Symbol&gt; maker = TYPES.get(name);</span>
+
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        return (maker == null) ? null : maker.apply(color);</span>
+    }
+
+    /**
+     * Normaliza un color: lo recorta y lo pasa a minúsculas.
+     *
+     * @param color color a normalizar (puede ser null)
+     * @return el color normalizado, o null si color es null
+     */
+    public static String normalize(String color)
+    {
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        return (color == null) ? null : color.trim().toLowerCase();</span>
+    }
+
+    /**
+     * Color de este símbolo.
+     *
+     * @return el color normalizado del símbolo
+     */
+    public String getColor()
+    {
+<span class="fc" id="L104">        return color;</span>
+    }
+
+    /**
+     * Tipo de este símbolo.
+     *
+     * @return &quot;normal&quot; en esta clase; cada subclase devuelve el suyo
+     */
+    public String getType()
+    {
+<span class="fc" id="L114">        return &quot;normal&quot;;</span>
+    }
+
+    /**
+     * Indica si el símbolo está oculto aunque esté en la ventana de su
+     * rueda. Solo los símbolos tímidos pueden estar ocultos.
+     *
+     * @return true si el símbolo está oculto
+     */
+    public boolean isHidden()
+    {
+<span class="fc" id="L125">        return false;</span>
+    }
+
+    /**
+     * Ubica el símbolo en una coordenada absoluta (esquina superior
+     * izquierda del espacio que ocupa). Internamente calcula el
+     * desplazamiento necesario, porque los movimientos de shapes son
+     * relativos.
+     *
+     * @param x coordenada horizontal en píxeles
+     * @param y coordenada vertical en píxeles
+     */
+    public void setPosition(int x, int y)
+    {
+<span class="fc" id="L139">        boxX = x;</span>
+<span class="fc" id="L140">        boxY = y;</span>
+<span class="fc" id="L141">        refresh();</span>
+<span class="fc" id="L142">    }</span>
+
+    /**
+     * Cambia el diámetro con el que se dibuja el símbolo.
+     *
+     * @param newDiameter nuevo diámetro en píxeles (mayor que cero)
+     */
+    public void setDiameter(int newDiameter)
+    {
+<span class="fc" id="L151">        fullDiameter = Math.max(1, newDiameter);</span>
+<span class="fc" id="L152">        refresh();</span>
+<span class="fc" id="L153">    }</span>
+
+    /**
+     * Diámetro con el que se dibuja el símbolo en este momento. En un
+     * símbolo efímero es menor que el que le asignó su rueda.
+     *
+     * @return el diámetro en píxeles
+     */
+    public int getDiameter()
+    {
+<span class="fc" id="L163">        return Math.max(1, shownDiameter());</span>
+    }
+
+    /**
+     * Hace visible el símbolo (si su tipo lo permite en este momento).
+     */
+    public void makeVisible()
+    {
+<span class="nc" id="L171">        drawn = true;</span>
+<span class="nc" id="L172">        repaint();</span>
+<span class="nc" id="L173">    }</span>
+
+    /**
+     * Oculta el símbolo.
+     */
+    public void makeInvisible()
+    {
+<span class="fc" id="L180">        drawn = false;</span>
+<span class="fc" id="L181">        repaint();</span>
+<span class="fc" id="L182">    }</span>
+
+    /**
+     * Cuenta cuántos colores distintos (ignorando nulos) hay en el
+     * arreglo recibido. Se usa para saber cuántos símbolos diferentes
+     * muestra la máquina.
+     *
+     * @param colors colores a revisar (pueden incluir nulos)
+     * @return la cantidad de colores distintos
+     */
+    public static int getDistinctSymbols(String[] colors)
+    {
+<span class="fc" id="L194">        java.util.HashSet&lt;String&gt; distinct = new java.util.HashSet&lt;String&gt;();</span>
+
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        for (String color : colors)</span>
+        {
+<span class="fc bfc" id="L198" title="All 2 branches covered.">            if (color != null)</span>
+            {
+<span class="fc" id="L200">                distinct.add(color);</span>
+            }
+        }
+
+<span class="fc" id="L204">        return distinct.size();</span>
+    }
+
+    /**
+     * Ajusta el símbolo para que quede centrado dentro de la ventana de
+     * su rueda, ocupando tres cuartas partes de la ventana.
+     */
+    void fitIn(int x, int y, int width, int height)
+    {
+<span class="nc" id="L213">        fullDiameter = Math.max(2, Math.min(width, height) * 3 / 4);</span>
+<span class="nc" id="L214">        boxX = x + (width - fullDiameter) / 2;</span>
+<span class="nc" id="L215">        boxY = y + (height - fullDiameter) / 2;</span>
+<span class="nc" id="L216">        refresh();</span>
+<span class="nc" id="L217">    }</span>
+
+    /**
+     * Diámetro que le asignó su rueda (el del símbolo &quot;completo&quot;).
+     */
+    int fullSize()
+    {
+<span class="fc" id="L224">        return fullDiameter;</span>
+    }
+
+    /**
+     * Diámetro con el que se dibuja el círculo del símbolo. Las
+     * subclases lo redefinen cuando cambian el tamaño del símbolo.
+     */
+    int shownDiameter()
+    {
+<span class="fc" id="L233">        return fullDiameter;</span>
+    }
+
+    /**
+     * Evento: el símbolo acaba de quedar en la ventana de su rueda
+     * (por un giro o porque se pidió con placeSymbol). El símbolo normal
+     * no hace nada.
+     */
+    void selected()
+    {
+<span class="fc" id="L243">    }</span>
+
+    /**
+     * Evento: la rueda a la que pertenece el símbolo acaba de girar
+     * (el símbolo esté o no en la ventana). El símbolo normal no hace
+     * nada.
+     */
+    void spun()
+    {
+<span class="fc" id="L252">    }</span>
+
+    /**
+     * Recalcula tamaño y posición de las figuras y las redibuja si el
+     * símbolo está visible. Las subclases la llaman cuando cambia su
+     * estado.
+     */
+    void refresh()
+    {
+<span class="fc" id="L261">        int size = Math.max(1, shownDiameter());</span>
+<span class="fc" id="L262">        int offset = (fullDiameter - size) / 2;</span>
+
+<span class="fc" id="L264">        body.set(boxX + offset, boxY + offset, size);</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">        if (halo != null)</span>
+        {
+<span class="fc" id="L267">            int pad = Math.max(1, fullDiameter / 8);</span>
+<span class="fc" id="L268">            halo.set(boxX - pad, boxY - pad, fullDiameter + 2 * pad);</span>
+        }
+
+<span class="pc bpc" id="L271" title="1 of 2 branches missed.">        if (drawn)</span>
+        {
+<span class="nc" id="L273">            repaint();</span>
+        }
+<span class="fc" id="L275">    }</span>
+
+    /**
+     * Dibuja el aro y luego el círculo (para que el aro quede detrás), o
+     * los oculta si el símbolo no debe verse.
+     */
+    private void repaint()
+    {
+<span class="pc bpc" id="L283" title="3 of 4 branches missed.">        if (drawn &amp;&amp; !isHidden())</span>
+        {
+<span class="nc bnc" id="L285" title="All 2 branches missed.">            if (halo != null)</span>
+            {
+<span class="nc" id="L287">                halo.show();</span>
+            }
+<span class="nc" id="L289">            body.show();</span>
+        }
+        else
+        {
+<span class="fc" id="L293">            body.hide();</span>
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">            if (halo != null)</span>
+            {
+<span class="nc" id="L296">                halo.hide();</span>
+            }
+        }
+<span class="fc" id="L299">    }</span>
+
+    /**
+     * Un círculo de shapes que recuerda su posición y tamaño, porque
+     * los movimientos de shapes son relativos.
+     */
+    private static class Ring
+    {
+        private Circle circle;
+        private int x;
+        private int y;
+        private int size;
+
+        Ring(String color)
+<span class="fc" id="L313">        {</span>
+<span class="fc" id="L314">            circle = new Circle();</span>
+<span class="fc" id="L315">            x = DEFAULT_X;</span>
+<span class="fc" id="L316">            y = DEFAULT_Y;</span>
+<span class="fc" id="L317">            size = DEFAULT_DIAMETER;</span>
+<span class="fc" id="L318">            circle.changeColor(color);</span>
+<span class="fc" id="L319">        }</span>
+
+        void set(int newX, int newY, int newSize)
+        {
+<span class="fc bfc" id="L323" title="All 2 branches covered.">            if (newSize != size)</span>
+            {
+<span class="fc" id="L325">                circle.changeSize(newSize);</span>
+<span class="fc" id="L326">                size = newSize;</span>
+            }
+<span class="fc bfc" id="L328" title="All 2 branches covered.">            if (newX != x)</span>
+            {
+<span class="fc" id="L330">                circle.moveHorizontal(newX - x);</span>
+<span class="fc" id="L331">                x = newX;</span>
+            }
+<span class="fc bfc" id="L333" title="All 2 branches covered.">            if (newY != y)</span>
+            {
+<span class="fc" id="L335">                circle.moveVertical(newY - y);</span>
+<span class="fc" id="L336">                y = newY;</span>
+            }
+<span class="fc" id="L338">        }</span>
+
+        void show()
+        {
+<span class="nc" id="L342">            circle.makeVisible();</span>
+<span class="nc" id="L343">        }</span>
+
+        void hide()
+        {
+<span class="fc" id="L347">            circle.makeInvisible();</span>
+<span class="fc" id="L348">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -1,0 +1,13 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=SlotMachineCC4Test
+comment0.text=\r\n Pruebas de unidad compartidas del ciclo 4 (creaci\u00F3n colectiva). El\r\n nombre de cada prueba incluye las iniciales de sus autores.\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Prepara una m\u00E1quina vac\u00EDa e invisible.\r\n
+comment2.target=void accordingBoLiShouldMakeLeftyWheelCopyItsLeftNeighbour()
+comment2.text=\r\n Una rueda lefty deber\u00EDa quedar igual a la rueda de su izquierda\r\n despu\u00E9s de girar.\r\n
+comment3.target=void accordingBoLiShouldNotLetRebelWheelBeLockedSwappedOrDeleted()
+comment3.text=\r\n Una rueda rebel no deber\u00EDa poder bloquearse, intercambiarse ni\r\n eliminarse.\r\n
+comment4.target=void accordingBoLiShouldRejectUnknownWheelAndSymbolTypes()
+comment4.text=\r\n No deber\u00EDa aceptar tipos de rueda ni de s\u00EDmbolo que no existen.\r\n
+numComments=5

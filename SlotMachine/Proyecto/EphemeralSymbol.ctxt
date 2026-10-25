@@ -1,0 +1,16 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=EphemeralSymbol
+comment0.text=\r\n S\u00EDmbolo ef\u00EDmero\: con cada giro de su rueda se va achicando hasta\r\n quedar convertido en un punto. Se dibuja con un aro naranja; dentro\r\n del aro se ve cu\u00E1nto le queda de vida.\r\n
+comment1.params=color
+comment1.target=EphemeralSymbol(java.lang.String)
+comment1.text=\r\n Crea un s\u00EDmbolo ef\u00EDmero del color indicado, con su tama\u00F1o completo.\r\n\r\n @param color nombre CSS o valor "\#rrggbb"\r\n
+comment2.target=java.lang.String getType()
+comment2.text=\r\n Tipo de este s\u00EDmbolo.\r\n\r\n @return "ephemeral"\r\n
+comment3.target=boolean isPoint()
+comment3.text=\r\n Indica si el s\u00EDmbolo ya qued\u00F3 convertido en un punto.\r\n\r\n @return true si ya no puede achicarse m\u00E1s\r\n
+comment4.target=int shownDiameter()
+comment4.text=\r\n Cada giro le quita una d\u00E9cima parte de su tama\u00F1o completo; a los\r\n diez giros es un punto (di\u00E1metro 1) y ah\u00ED se queda.\r\n
+comment5.target=void spun()
+comment5.text=\r\n La rueda gir\u00F3\: el s\u00EDmbolo se achica un paso.\r\n
+numComments=6

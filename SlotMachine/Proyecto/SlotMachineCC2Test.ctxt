@@ -1,0 +1,11 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=SlotMachineCC2Test
+comment0.text=\r\n Pruebas de unidad compartidas del ciclo 2 (creaci\u00F3n colectiva). El\r\n nombre de cada prueba incluye las iniciales de sus autores.\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Prepara una m\u00E1quina de dos ruedas con tres s\u00EDmbolos cada una.\r\n
+comment2.target=void accordingBoLiShouldKeepAllSymbolsWhenSwapping()
+comment2.text=\r\n Deber\u00EDa conservar todos los s\u00EDmbolos al intercambiar dos ruedas.\r\n
+comment3.target=void accordingBoLiShouldNotSpinLockedWheelWithSteps()
+comment3.text=\r\n No deber\u00EDa girar con pasos una rueda fijada, aunque se haya\r\n soltado otra.\r\n
+numComments=4

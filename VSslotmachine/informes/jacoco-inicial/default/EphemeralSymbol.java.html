@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EphemeralSymbol.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">EphemeralSymbol.java</span></div><h1>EphemeralSymbol.java</h1><pre class="source lang-java linenums">/**
+ * Símbolo efímero: con cada giro de su rueda se va achicando hasta
+ * quedar convertido en un punto. Se dibuja con un aro naranja; dentro
+ * del aro se ve cuánto le queda de vida.
+ */
+public class EphemeralSymbol extends Symbol
+{
+    private static final String HALO_COLOR = &quot;orange&quot;;
+    private static final int LIFE = 10;
+
+    private int spins;
+
+    /**
+     * Crea un símbolo efímero del color indicado, con su tamaño completo.
+     *
+     * @param color nombre CSS o valor &quot;#rrggbb&quot;
+     */
+    public EphemeralSymbol(String color)
+    {
+<span class="fc" id="L20">        super(color, HALO_COLOR);</span>
+<span class="fc" id="L21">        spins = 0;</span>
+<span class="fc" id="L22">    }</span>
+
+    /**
+     * Tipo de este símbolo.
+     *
+     * @return &quot;ephemeral&quot;
+     */
+    @Override
+    public String getType()
+    {
+<span class="fc" id="L32">        return &quot;ephemeral&quot;;</span>
+    }
+
+    /**
+     * Indica si el símbolo ya quedó convertido en un punto.
+     *
+     * @return true si ya no puede achicarse más
+     */
+    public boolean isPoint()
+    {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        return getDiameter() &lt;= 1;</span>
+    }
+
+    /**
+     * Cada giro le quita una décima parte de su tamaño completo; a los
+     * diez giros es un punto (diámetro 1) y ahí se queda.
+     */
+    @Override
+    int shownDiameter()
+    {
+<span class="fc" id="L52">        return fullSize() * (LIFE - Math.min(spins, LIFE)) / LIFE;</span>
+    }
+
+    /**
+     * La rueda giró: el símbolo se achica un paso.
+     */
+    @Override
+    void spun()
+    {
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        if (spins &lt; LIFE)</span>
+        {
+<span class="fc" id="L63">            spins++;</span>
+<span class="fc" id="L64">            refresh();</span>
+        }
+<span class="fc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

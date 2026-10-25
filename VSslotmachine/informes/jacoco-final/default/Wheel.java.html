@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Wheel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Wheel.java</span></div><h1>Wheel.java</h1><pre class="source lang-java linenums">import java.util.ArrayList;
+
+/**
+ * Representa una rueda normal de la máquina tragamonedas.
+ * Cada rueda mantiene su propia lista de símbolos y recuerda cuál de
+ * ellos está mostrando actualmente. Todos los símbolos de una rueda
+ * comparten la misma ventana, así que solo el símbolo actual se dibuja.
+ *
+ * Es la base de los demás tipos de rueda (LeftyWheel, RebelWheel y
+ * ReverseWheel), que la extienden redefiniendo los ganchos type(),
+ * idleColor(), direction(), follow(), isLockable(), isSwappable() e
+ * isRemovable().
+ */
+public class Wheel
+{
+    private static final String LOCKED_COLOR = &quot;lightgray&quot;;
+    private static final int FAST_PAUSE = 40;
+    private static final int SLOW_PAUSE = 150;
+    private static final int SLOW_STEPS = 3;
+    private static final int SLOT_DEFAULT_X = 70;
+    private static final int SLOT_DEFAULT_Y = 15;
+
+    private ArrayList&lt;Symbol&gt; symbols;
+    private Rectangle slot;
+    private int currentPosition;
+    private int xPosition;
+    private int yPosition;
+    private int width;
+    private int height;
+    private boolean locked;
+    private boolean visible;
+
+    /**
+     * Crea una rueda vacía con la geometría por defecto.
+     */
+    public Wheel()
+    {
+<span class="fc" id="L38">        this(60, 80, 60, 60);</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Crea una rueda vacía con la ventana en la posición y tamaño dados.
+     *
+     * @param x coordenada horizontal de la ventana
+     * @param y coordenada vertical de la ventana
+     * @param width ancho de la ventana
+     * @param height alto de la ventana
+     */
+    public Wheel(int x, int y, int width, int height)
+<span class="fc" id="L50">    {</span>
+<span class="fc" id="L51">        symbols = new ArrayList&lt;Symbol&gt;();</span>
+<span class="fc" id="L52">        currentPosition = 0;</span>
+<span class="fc" id="L53">        locked = false;</span>
+<span class="fc" id="L54">        visible = false;</span>
+<span class="fc" id="L55">        slot = new Rectangle();</span>
+<span class="fc" id="L56">        xPosition = SLOT_DEFAULT_X;</span>
+<span class="fc" id="L57">        yPosition = SLOT_DEFAULT_Y;</span>
+<span class="fc" id="L58">        slot.changeColor(&quot;white&quot;);</span>
+<span class="fc" id="L59">        layout(x, y, width, height);</span>
+<span class="fc" id="L60">    }</span>
+
+    /**
+     * Reubica y redimensiona la ventana de la rueda y todos sus símbolos.
+     * Se usa cada vez que cambia la cantidad de ruedas de la máquina.
+     *
+     * @param x nueva coordenada horizontal de la ventana
+     * @param y nueva coordenada vertical de la ventana
+     * @param newWidth nuevo ancho de la ventana
+     * @param newHeight nuevo alto de la ventana
+     */
+    final void layout(int x, int y, int newWidth, int newHeight)
+    {
+<span class="fc" id="L73">        slot.changeSize(newHeight, newWidth);</span>
+<span class="fc" id="L74">        slot.moveHorizontal(x - xPosition);</span>
+<span class="fc" id="L75">        slot.moveVertical(y - yPosition);</span>
+<span class="fc" id="L76">        xPosition = x;</span>
+<span class="fc" id="L77">        yPosition = y;</span>
+<span class="fc" id="L78">        width = newWidth;</span>
+<span class="fc" id="L79">        height = newHeight;</span>
+
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        for (Symbol symbol : symbols)</span>
+        {
+<span class="fc" id="L83">            fit(symbol);</span>
+<span class="fc" id="L84">        }</span>
+<span class="fc" id="L85">        refresh();</span>
+<span class="fc" id="L86">    }</span>
+
+    /**
+     * Ajusta el tamaño y la posición de un símbolo para que quede
+     * centrado dentro de la ventana de esta rueda.
+     */
+    private void fit(Symbol symbol)
+    {
+<span class="fc" id="L94">        int diameter = Math.max(2, Math.min(width, height) * 3 / 4);</span>
+<span class="fc" id="L95">        symbol.setDiameter(diameter);</span>
+<span class="fc" id="L96">        symbol.setPosition(xPosition + (width - diameter) / 2,</span>
+                           yPosition + (height - diameter) / 2);
+<span class="fc" id="L98">    }</span>
+
+    /**
+     * Bloquea la rueda: no podrá girarse, intercambiarse ni cambiar el
+     * símbolo que muestra hasta que se desbloquee.
+     */
+    public void lock()
+    {
+<span class="fc" id="L106">        locked = true;</span>
+<span class="fc" id="L107">        slot.changeColor(LOCKED_COLOR);</span>
+<span class="fc" id="L108">        refresh();</span>
+<span class="fc" id="L109">    }</span>
+
+    /**
+     * Desbloquea la rueda para que se pueda operar de nuevo.
+     */
+    public void unlock()
+    {
+<span class="fc" id="L116">        locked = false;</span>
+<span class="fc" id="L117">        slot.changeColor(idleColor());</span>
+<span class="fc" id="L118">        refresh();</span>
+<span class="fc" id="L119">    }</span>
+
+    /**
+     * Indica si la rueda está bloqueada.
+     *
+     * @return true si la rueda está bloqueada
+     */
+    public boolean isLocked()
+    {
+<span class="fc" id="L128">        return locked;</span>
+    }
+
+    /**
+     * Agrega un símbolo al final de esta rueda. Solo SlotMachine decide
+     * qué símbolos tiene cada rueda (visibilidad de paquete).
+     *
+     * @param symbol símbolo a agregar
+     */
+    void addSymbol(Symbol symbol)
+    {
+<span class="fc" id="L139">        fit(symbol);</span>
+<span class="fc" id="L140">        symbols.add(symbol);</span>
+<span class="fc" id="L141">        refresh();</span>
+<span class="fc" id="L142">    }</span>
+
+    /**
+     * Elimina de esta rueda el símbolo del color indicado. Si era el
+     * símbolo que se estaba mostrando, la rueda pasa a mostrar el que
+     * ocupaba el siguiente lugar.
+     *
+     * @param color color del símbolo a eliminar
+     * @return true si la rueda tenía ese símbolo y fue eliminado
+     */
+    boolean delSymbol(String color)
+    {
+<span class="fc" id="L154">        int index = indexOf(color);</span>
+
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (index &lt; 0)</span>
+        {
+<span class="fc" id="L158">            return false;</span>
+        }
+
+<span class="fc" id="L161">        symbols.get(index).makeInvisible();</span>
+<span class="fc" id="L162">        symbols.remove(index);</span>
+
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        if (index &lt; currentPosition)</span>
+        {
+<span class="fc" id="L166">            currentPosition--;</span>
+        }
+<span class="fc bfc" id="L168" title="All 2 branches covered.">        if (currentPosition &gt;= symbols.size())</span>
+        {
+<span class="fc" id="L170">            currentPosition = 0;</span>
+        }
+
+<span class="fc" id="L173">        refresh();</span>
+<span class="fc" id="L174">        return true;</span>
+    }
+
+    /**
+     * Busca la posición (desde 0) del símbolo de un color en esta rueda.
+     *
+     * @param color color buscado
+     * @return la posición del símbolo, o -1 si la rueda no lo tiene
+     */
+    private int indexOf(String color)
+    {
+<span class="fc bfc" id="L185" title="All 2 branches covered.">        for (int i = 0; i &lt; symbols.size(); i++)</span>
+        {
+<span class="fc bfc" id="L187" title="All 2 branches covered.">            if (symbols.get(i).getColor().equals(color))</span>
+            {
+<span class="fc" id="L189">                return i;</span>
+            }
+        }
+
+<span class="fc" id="L193">        return -1;</span>
+    }
+
+    /**
+     * Indica si la rueda tiene un símbolo del color dado.
+     *
+     * @param color color buscado
+     * @return true si la rueda tiene ese símbolo
+     */
+    boolean hasSymbol(String color)
+    {
+<span class="fc bfc" id="L204" title="All 2 branches covered.">        return indexOf(color) &gt;= 0;</span>
+    }
+
+    /**
+     * Hace que la rueda muestre el símbolo del color indicado.
+     *
+     * @param color color del símbolo que debe mostrarse
+     * @return true si lo encontró y lo colocó; false si la rueda no
+     *         tiene un símbolo de ese color
+     */
+    boolean placeSymbol(String color)
+    {
+<span class="fc" id="L216">        int index = indexOf(color);</span>
+
+<span class="fc bfc" id="L218" title="All 2 branches covered.">        if (index &lt; 0)</span>
+        {
+<span class="fc" id="L220">            return false;</span>
+        }
+
+<span class="fc bfc" id="L223" title="All 2 branches covered.">        boolean changed = index != currentPosition;</span>
+
+<span class="fc" id="L225">        currentPosition = index;</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">        if (changed)</span>
+        {
+<span class="fc" id="L228">            symbols.get(index).selected();</span>
+        }
+<span class="fc" id="L230">        refresh();</span>
+<span class="fc" id="L231">        return true;</span>
+    }
+
+    /**
+     * Devuelve una copia de la lista de símbolos de esta rueda, para no
+     * exponer el estado interno.
+     *
+     * @return copia de la lista de símbolos
+     */
+    ArrayList&lt;Symbol&gt; getSymbols()
+    {
+<span class="fc" id="L242">        return new ArrayList&lt;Symbol&gt;(symbols);</span>
+    }
+
+    /**
+     * Símbolo que esta rueda muestra actualmente.
+     *
+     * @return el símbolo actual, o null si la rueda no tiene símbolos
+     */
+    public Symbol currentSymbol()
+    {
+<span class="fc bfc" id="L252" title="All 2 branches covered.">        if (symbols.isEmpty())</span>
+        {
+<span class="fc" id="L254">            return null;</span>
+        }
+
+<span class="fc" id="L257">        return symbols.get(currentPosition);</span>
+    }
+
+    /**
+     * Símbolo que esta rueda muestra y que además está visible: es null
+     * si la rueda está vacía o si el símbolo actual está oculto (por
+     * ejemplo, un ShySymbol invisible).
+     *
+     * @return el símbolo visible, o null si no hay ninguno
+     */
+    public Symbol shownSymbol()
+    {
+<span class="fc" id="L269">        Symbol current = currentSymbol();</span>
+
+<span class="fc bfc" id="L271" title="All 4 branches covered.">        return (current == null || current.isHidden()) ? null : current;</span>
+    }
+
+    /**
+     * Avanza un símbolo (de forma cíclica, en el sentido de giro de la
+     * rueda) y lo muestra. Cuenta como un giro.
+     *
+     * @return el nuevo símbolo actual, o null si la rueda está vacía
+     */
+    public Symbol newCurrentSymbol()
+    {
+<span class="fc bfc" id="L282" title="All 2 branches covered.">        if (symbols.isEmpty())</span>
+        {
+<span class="fc" id="L284">            return null;</span>
+        }
+
+<span class="fc" id="L287">        move(direction());</span>
+<span class="fc" id="L288">        landed();</span>
+<span class="fc" id="L289">        return symbols.get(currentPosition);</span>
+    }
+
+    /**
+     * Mueve la rueda una cantidad de lugares (positiva o negativa) y
+     * muestra el símbolo que queda en la ventana.
+     */
+    private Symbol move(int places)
+    {
+<span class="pc bpc" id="L298" title="1 of 2 branches missed.">        if (symbols.isEmpty())</span>
+        {
+<span class="nc" id="L300">            return null;</span>
+        }
+
+<span class="fc" id="L303">        currentPosition = Math.floorMod(currentPosition + places, symbols.size());</span>
+<span class="fc" id="L304">        refresh();</span>
+<span class="fc" id="L305">        return symbols.get(currentPosition);</span>
+    }
+
+    /**
+     * Gira la rueda una cantidad de pasos; cada paso muestra el símbolo
+     * siguiente (o el anterior si steps es negativo). Si la rueda está
+     * visible, el giro se ve paso a paso por el camino más corto y los
+     * últimos pasos son más lentos para dar sensación de frenado. Con
+     * cero pasos no hay giro. Al terminar, los símbolos se enteran del
+     * giro y el símbolo que quedó en la ventana, de su selección.
+     *
+     * @param steps cantidad de pasos (puede ser negativa o mayor que la
+     *              cantidad de símbolos)
+     */
+    public void spin(int steps)
+    {
+<span class="fc bfc" id="L321" title="All 4 branches covered.">        if (symbols.isEmpty() || steps == 0)</span>
+        {
+<span class="fc" id="L323">            return;</span>
+        }
+
+<span class="fc" id="L326">        int forward = Math.floorMod(steps, symbols.size());</span>
+
+<span class="fc bfc" id="L328" title="All 2 branches covered.">        if (direction() &lt; 0)</span>
+        {
+<span class="fc" id="L330">            forward = Math.floorMod(-forward, symbols.size());</span>
+        }
+
+<span class="pc bpc" id="L333" title="1 of 2 branches missed.">        if (visible)</span>
+        {
+<span class="nc" id="L335">            animate(forward);</span>
+        }
+        else
+        {
+<span class="fc" id="L339">            move(forward);</span>
+        }
+
+<span class="fc" id="L342">        landed();</span>
+<span class="fc" id="L343">    }</span>
+
+    /**
+     * Mueve la rueda visible paso a paso por el camino más corto.
+     */
+    private void animate(int forward)
+    {
+<span class="nc" id="L350">        int backward = symbols.size() - forward;</span>
+<span class="nc bnc" id="L351" title="All 2 branches missed.">        int direction = (forward &lt;= backward) ? 1 : -1;</span>
+<span class="nc" id="L352">        int count = Math.min(forward, backward);</span>
+
+<span class="nc bnc" id="L354" title="All 2 branches missed.">        for (int i = 0; i &lt; count; i++)</span>
+        {
+<span class="nc" id="L356">            move(direction);</span>
+<span class="nc" id="L357">            pause(count - i);</span>
+        }
+<span class="nc" id="L359">    }</span>
+
+    /**
+     * Avisa a los símbolos que la rueda giró y selecciona el que quedó
+     * en la ventana (por ejemplo, un símbolo tímido alterna su estado).
+     */
+    private void landed()
+    {
+<span class="fc bfc" id="L367" title="All 2 branches covered.">        for (Symbol symbol : symbols)</span>
+        {
+<span class="fc" id="L369">            symbol.spun();</span>
+<span class="fc" id="L370">        }</span>
+
+<span class="fc" id="L372">        symbols.get(currentPosition).selected();</span>
+<span class="fc" id="L373">        refresh();</span>
+<span class="fc" id="L374">    }</span>
+
+    /**
+     * Copia el estado de otra rueda: muestra el símbolo del mismo color
+     * que ella (si esta rueda lo tiene) y cuenta como un giro. Por
+     * defecto una rueda no copia a nadie y devuelve false.
+     *
+     * @param left la rueda que está a su izquierda (null si no hay)
+     * @return true si copió a la otra rueda; false si debe girar normal
+     */
+    boolean follow(Wheel left)
+    {
+<span class="fc" id="L386">        return false;</span>
+    }
+
+    /**
+     * Muestra el símbolo del color dado como resultado de un giro.
+     * Debe ser un color que la rueda tenga.
+     */
+    void jumpTo(String color)
+    {
+<span class="fc" id="L395">        currentPosition = indexOf(color);</span>
+<span class="fc" id="L396">        landed();</span>
+<span class="fc" id="L397">    }</span>
+
+    /**
+     * Nombre del tipo de esta rueda.
+     *
+     * @return &quot;normal&quot;
+     */
+    public String type()
+    {
+<span class="nc" id="L406">        return &quot;normal&quot;;</span>
+    }
+
+    /**
+     * Gancho: sentido en que gira la rueda.
+     *
+     * @return 1 si gira hacia adelante (-1 si lo hace al contrario)
+     */
+    protected int direction()
+    {
+<span class="fc" id="L416">        return 1;</span>
+    }
+
+    /**
+     * Pinta la ventana con el color de su tipo. Lo llaman los
+     * constructores de las subclases, porque el constructor de Wheel no
+     * debe invocar métodos redefinibles.
+     */
+    final void applyIdleColor()
+    {
+<span class="fc" id="L426">        slot.changeColor(idleColor());</span>
+<span class="fc" id="L427">    }</span>
+
+    /**
+     * Gancho: color de la ventana cuando la rueda no está bloqueada.
+     *
+     * @return color CSS de la ventana libre
+     */
+    protected String idleColor()
+    {
+<span class="fc" id="L436">        return &quot;white&quot;;</span>
+    }
+
+    /**
+     * Indica si la rueda se deja bloquear.
+     *
+     * @return true si se puede bloquear
+     */
+    public boolean isLockable()
+    {
+<span class="fc" id="L446">        return true;</span>
+    }
+
+    /**
+     * Indica si la rueda se deja intercambiar con otra.
+     *
+     * @return true si se puede intercambiar
+     */
+    public boolean isSwappable()
+    {
+<span class="fc" id="L456">        return true;</span>
+    }
+
+    /**
+     * Indica si la rueda se deja eliminar de la máquina.
+     *
+     * @return true si se puede eliminar
+     */
+    public boolean isRemovable()
+    {
+<span class="fc" id="L466">        return true;</span>
+    }
+
+    /**
+     * Espera entre dos pasos de un giro visible; los últimos pasos
+     * esperan más.
+     */
+    private void pause(int remaining)
+    {
+<span class="nc bnc" id="L475" title="All 2 branches missed.">        int time = (remaining &lt;= SLOW_STEPS) ? SLOW_PAUSE : FAST_PAUSE;</span>
+<span class="nc" id="L476">        Canvas.getCanvas().wait(time);</span>
+<span class="nc" id="L477">    }</span>
+
+    /**
+     * Intercambia el contenido de esta rueda con el de other: la lista
+     * de símbolos y cuál de ellos se está mostrando. Cada ventana se
+     * queda en su lugar; solo cambia lo que hay dentro.
+     *
+     * @param other la otra rueda
+     */
+    public void swapContent(Wheel other)
+    {
+<span class="fc" id="L488">        ArrayList&lt;Symbol&gt; tempSymbols = this.symbols;</span>
+<span class="fc" id="L489">        int tempPosition = this.currentPosition;</span>
+
+<span class="fc" id="L491">        this.symbols = other.symbols;</span>
+<span class="fc" id="L492">        this.currentPosition = other.currentPosition;</span>
+<span class="fc" id="L493">        other.symbols = tempSymbols;</span>
+<span class="fc" id="L494">        other.currentPosition = tempPosition;</span>
+
+<span class="fc" id="L496">        this.adoptSymbols();</span>
+<span class="fc" id="L497">        other.adoptSymbols();</span>
+<span class="fc" id="L498">    }</span>
+
+    /**
+     * Reubica todos los símbolos de la rueda dentro de su ventana y
+     * actualiza lo que se dibuja.
+     */
+    private void adoptSymbols()
+    {
+<span class="fc bfc" id="L506" title="All 2 branches covered.">        for (Symbol symbol : symbols)</span>
+        {
+<span class="fc" id="L508">            symbol.makeInvisible();</span>
+<span class="fc" id="L509">            fit(symbol);</span>
+<span class="fc" id="L510">        }</span>
+<span class="fc" id="L511">        refresh();</span>
+<span class="fc" id="L512">    }</span>
+
+    /**
+     * Indica si el símbolo visible de esta rueda tiene el mismo color
+     * que el símbolo recibido. Se usa al verificar el jackpot; una rueda
+     * vacía o con su símbolo oculto no coincide con nadie.
+     *
+     * @param other símbolo con el que se compara
+     * @return true si ambos tienen el mismo color
+     */
+    public boolean allSymbolMatch(Symbol other)
+    {
+<span class="fc" id="L524">        Symbol mine = shownSymbol();</span>
+
+<span class="fc bfc" id="L526" title="All 4 branches covered.">        if (mine == null || other == null)</span>
+        {
+<span class="fc" id="L528">            return false;</span>
+        }
+
+<span class="fc" id="L531">        return mine.getColor().equals(other.getColor());</span>
+    }
+
+    /**
+     * Muestra la ventana de la rueda y su símbolo actual.
+     */
+    public void makeVisible()
+    {
+<span class="nc" id="L539">        visible = true;</span>
+<span class="nc" id="L540">        slot.makeVisible();</span>
+<span class="nc" id="L541">        refresh();</span>
+<span class="nc" id="L542">    }</span>
+
+    /**
+     * Oculta la ventana de la rueda y todos sus símbolos.
+     */
+    public void makeInvisible()
+    {
+<span class="fc" id="L549">        visible = false;</span>
+<span class="fc" id="L550">        slot.makeInvisible();</span>
+
+<span class="fc bfc" id="L552" title="All 2 branches covered.">        for (Symbol symbol : symbols)</span>
+        {
+<span class="fc" id="L554">            symbol.makeInvisible();</span>
+<span class="fc" id="L555">        }</span>
+<span class="fc" id="L556">    }</span>
+
+    /**
+     * Si la rueda es visible, dibuja solo el símbolo actual y oculta los
+     * demás. No hace nada si la rueda es invisible.
+     */
+    private void refresh()
+    {
+<span class="pc bpc" id="L564" title="1 of 2 branches missed.">        if (!visible)</span>
+        {
+<span class="fc" id="L566">            return;</span>
+        }
+
+<span class="nc bnc" id="L569" title="All 2 branches missed.">        for (int i = 0; i &lt; symbols.size(); i++)</span>
+        {
+<span class="nc bnc" id="L571" title="All 2 branches missed.">            if (i != currentPosition)</span>
+            {
+<span class="nc" id="L573">                symbols.get(i).makeInvisible();</span>
+            }
+        }
+
+<span class="nc bnc" id="L577" title="All 2 branches missed.">        if (!symbols.isEmpty())</span>
+        {
+<span class="nc" id="L579">            symbols.get(currentPosition).makeVisible();</span>
+        }
+<span class="nc" id="L581">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

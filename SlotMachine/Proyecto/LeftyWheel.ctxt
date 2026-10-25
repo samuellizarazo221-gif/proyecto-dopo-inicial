@@ -1,0 +1,14 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=LeftyWheel
+comment0.text=\r\n Rueda zurda\: si hay una rueda a su izquierda, al girar copia su estado\r\n (muestra el s\u00EDmbolo del mismo color que esa rueda). Si no hay rueda a\r\n su izquierda, o si no tiene un s\u00EDmbolo de ese color, gira como una\r\n rueda normal. Se reconoce por su ventana azul claro.\r\n
+comment1.target=LeftyWheel()
+comment1.text=\r\n Crea una rueda zurda vac\u00EDa con la geometr\u00EDa por defecto.\r\n
+comment2.target=java.lang.String type()
+comment2.text=\r\n Nombre del tipo de esta rueda.\r\n\r\n @return "lefty"\r\n
+comment3.params=left
+comment3.target=boolean follow(Wheel)
+comment3.text=\r\n Copia el s\u00EDmbolo que muestra la rueda de la izquierda.\r\n\r\n @param left la rueda que est\u00E1 a su izquierda (null si no hay)\r\n @return true si pudo copiarla; false si debe girar normalmente\r\n
+comment4.target=java.lang.String idleColor()
+comment4.text=\r\n Ventana azul claro.\r\n
+numComments=5

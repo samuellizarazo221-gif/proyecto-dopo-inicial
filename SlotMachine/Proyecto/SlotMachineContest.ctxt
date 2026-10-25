@@ -1,0 +1,43 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=SlotMachineContest
+comment0.text=\r\n Resuelve y simula el problema de la marat\u00F3n (ICPC World Finals 2025,\r\n Problem I\: Slot Machine).\r\n\r\n La m\u00E1quina tiene n ruedas (3 &lt;\= n &lt;\= 50) con los mismos n s\u00EDmbolos en el\r\n mismo orden. No se pueden ver los s\u00EDmbolos\: solo se puede girar una rueda\r\n una cantidad de pasos y preguntar cu\u00E1ntos s\u00EDmbolos distintos se ven. Hay\r\n que dejar todas las ruedas mostrando el mismo s\u00EDmbolo con a lo sumo\r\n 10 000 acciones.\r\n\r\n SlotMachine se usa \u00FAnicamente como herramienta de prueba (constructor\r\n SlotMachine(n), spin(wheel, steps) y distinctSymbols()) y, en simulate,\r\n como simulador (makeVisible()). Nunca se leen los colores.\r\n\r\n Idea de la soluci\u00F3n. Sea p[i] el s\u00EDmbolo que muestra la rueda i. Si se\r\n gira la rueda i paso a paso durante una vuelta completa, la cantidad de\r\n s\u00EDmbolos distintos solo toma dos valores y es la menor exactamente en\r\n los pasos t en que la rueda i queda igual a otra rueda. As\u00ED se obtiene\r\n W[i] \= { p[j] - p[i] }, el conjunto de s\u00EDmbolos presentes visto desde la\r\n rueda i. Como W[i] \= W[1] + (p[1] - p[i]), basta encontrar el\r\n desplazamiento entre ambos conjuntos para saber cu\u00E1nto girar la rueda i.\r\n Si W[1] es peri\u00F3dico ese desplazamiento no es \u00FAnico; en ese caso se\r\n mueve la rueda 1 una vez para romper la simetr\u00EDa. Una vuelta de\r\n exploraci\u00F3n cuesta n acciones, as\u00ED que en total se usan unas n*n + 3n.\r\n
+comment1.params=machine n
+comment1.target=SlotMachineContest(SlotMachine, int)
+comment10.params=base other shift
+comment10.target=boolean matches(boolean[], boolean[], int)
+comment10.text=\r\n Indica si other[(t + shift) mod n] \=\= base[t] para todo t.\r\n
+comment11.params=reference other
+comment11.target=int findShift(boolean[], boolean[])
+comment11.text=\r\n Desplazamiento \u00FAnico que lleva el conjunto de referencia al de la\r\n rueda; es lo que hay que girar esa rueda para igualar a la rueda 1.\r\n
+comment12.params=same
+comment12.target=void breakSymmetry(boolean[])
+comment12.text=\r\n Mueve la rueda 1 una vez para que el conjunto de s\u00EDmbolos deje de\r\n ser peri\u00F3dico. Si la rueda 1 es la \u00FAnica con su s\u00EDmbolo, se junta\r\n con el s\u00EDmbolo de otra rueda; si no, se lleva a un s\u00EDmbolo que\r\n ninguna rueda muestra.\r\n
+comment13.params=wheel steps
+comment13.target=int spin(int, int)
+comment13.text=\r\n Gira una rueda, registra la acci\u00F3n y devuelve la cantidad de\r\n s\u00EDmbolos distintos que se ven despu\u00E9s. Termina en cuanto todas las\r\n ruedas coinciden.\r\n
+comment14.target=int[][] netActions()
+comment14.text=\r\n Suma los giros registrados por rueda y deja, para cada rueda con\r\n giro neto distinto de cero, una sola acci\u00F3n con el camino m\u00E1s\r\n corto (entre -n/2 y n/2).\r\n
+comment2.params=n
+comment2.target=int[][] solve(int)
+comment2.text=\r\n Resuelve el problema para una m\u00E1quina nueva de n ruedas y n\r\n s\u00EDmbolos. La m\u00E1quina permanece invisible. Solo es posible resolver\r\n 3 &lt;\= n &lt;\= 50.\r\n\r\n @param n cantidad de ruedas y de s\u00EDmbolos\r\n @return las acciones necesarias para ganar, como pares\r\n         {rueda, pasos} (rueda desde 1; los pasos pueden ser\r\n         negativos), a lo sumo una por rueda; arreglo vac\u00EDo si n no\r\n         est\u00E1 en el rango del problema\r\n
+comment3.params=machine n
+comment3.target=int[][] solve(SlotMachine, int)
+comment3.text=\r\n Resuelve una m\u00E1quina ya creada (que debe tener n ruedas con los\r\n mismos n s\u00EDmbolos en el mismo orden) y la deja ganadora. Solo usa\r\n de la m\u00E1quina el constructor SlotMachine(n), spin(wheel, steps) y\r\n distinctSymbols(); por eso el tama\u00F1o n se recibe como par\u00E1metro.\r\n Si la m\u00E1quina ya es ganadora o n no est\u00E1 en el rango del problema,\r\n no hace nada y devuelve un arreglo vac\u00EDo.\r\n\r\n @param machine m\u00E1quina a resolver\r\n @param n cantidad de ruedas y de s\u00EDmbolos de la m\u00E1quina\r\n @return las acciones netas que llevan la m\u00E1quina a ganar\r\n
+comment4.params=n
+comment4.target=void simulate(int)
+comment4.text=\r\n Resuelve una m\u00E1quina nueva de n ruedas y n s\u00EDmbolos con la m\u00E1quina\r\n invisible y luego la muestra en su configuraci\u00F3n inicial, aplicando\r\n visiblemente (paso a paso) las acciones que la llevan a ganar. No\r\n hace nada si n no est\u00E1 en el rango del problema (3 &lt;\= n &lt;\= 50).\r\n\r\n @param n cantidad de ruedas y de s\u00EDmbolos\r\n
+comment5.target=int[][] solution()
+comment5.text=\r\n Resuelve la m\u00E1quina y devuelve las acciones netas (una por rueda\r\n con giro distinto de cero, ordenadas por rueda).\r\n
+comment6.target=void findAndApplyShifts()
+comment6.text=\r\n Ejecuta el algoritmo completo sobre la m\u00E1quina.\r\n
+comment7.params=wheel
+comment7.target=boolean[] scan(int)
+comment7.text=\r\n Gira una rueda un paso a la vez durante una vuelta completa y\r\n registra cu\u00E1ntos s\u00EDmbolos distintos se ven en cada paso. La rueda\r\n queda como estaba. Cuesta n acciones.\r\n\r\n @return arreglo en que la posici\u00F3n t es true si, al girar la rueda\r\n         t pasos, queda igual a alguna otra rueda\r\n
+comment8.params=same
+comment8.target=boolean[] view(boolean[])
+comment8.text=\r\n Conjunto de s\u00EDmbolos presentes visto desde la rueda\: el resultado\r\n de scan, m\u00E1s la posici\u00F3n 0 (el s\u00EDmbolo de la propia rueda).\r\n
+comment9.params=set
+comment9.target=boolean isPeriodic(boolean[])
+comment9.text=\r\n Indica si el conjunto se repite al desplazarlo alguna cantidad\r\n distinta de cero (en ese caso el desplazamiento no es \u00FAnico).\r\n
+numComments=15

@@ -1,0 +1,14 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=ShySymbol
+comment0.text=\r\n S\u00EDmbolo t\u00EDmido\: cada vez que queda seleccionado en la ventana de su\r\n rueda alterna entre visible e invisible. Mientras est\u00E1 invisible la\r\n rueda no muestra ning\u00FAn s\u00EDmbolo (la m\u00E1quina no lo cuenta en su\r\n configuraci\u00F3n). Se dibuja con un aro violeta.\r\n
+comment1.params=color
+comment1.target=ShySymbol(java.lang.String)
+comment1.text=\r\n Crea un s\u00EDmbolo t\u00EDmido del color indicado, inicialmente visible.\r\n\r\n @param color nombre CSS o valor "\#rrggbb"\r\n
+comment2.target=java.lang.String getType()
+comment2.text=\r\n Tipo de este s\u00EDmbolo.\r\n\r\n @return "shy"\r\n
+comment3.target=boolean isHidden()
+comment3.text=\r\n Indica si el s\u00EDmbolo est\u00E1 escondido en este momento.\r\n\r\n @return true mientras est\u00E9 escondido\r\n
+comment4.target=void selected()
+comment4.text=\r\n El s\u00EDmbolo qued\u00F3 seleccionado\: alterna su estado de visible a\r\n invisible, o al rev\u00E9s.\r\n
+numComments=5

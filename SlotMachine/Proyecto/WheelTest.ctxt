@@ -1,0 +1,33 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=WheelTest
+comment0.text=\r\n Pruebas de unidad de Wheel (siempre en modo invisible).\r\n
+comment1.target=void setUp()
+comment1.text=\r\n Prepara una rueda con red, blue y green (muestra red).\r\n
+comment10.target=void shouldSpinReverseWheelBackwards()
+comment10.text=\r\n Una rueda reverse deber\u00EDa girar hacia atr\u00E1s.\r\n
+comment11.target=void shouldRefuseLockSwapAndRemovalOnRebelWheel()
+comment11.text=\r\n Una rueda rebel no deber\u00EDa dejarse bloquear, intercambiar ni\r\n eliminar; una normal s\u00ED.\r\n
+comment12.target=void shouldCopyLeftNeighbourOnLeftyWheel()
+comment12.text=\r\n Una rueda lefty deber\u00EDa copiar el s\u00EDmbolo de su vecina si lo tiene\r\n y no copiar nada si no lo tiene.\r\n
+comment13.target=void shouldNotShowShySymbolWhileHidden()
+comment13.text=\r\n La rueda no deber\u00EDa mostrar un s\u00EDmbolo t\u00EDmido mientras est\u00E9 oculto.\r\n
+comment14.target=void shouldShrinkEphemeralSymbolOnEverySpinButNotWhenPlaced()
+comment14.text=\r\n Los s\u00EDmbolos ef\u00EDmeros deber\u00EDan achicarse con cada giro de la rueda\r\n pero no al colocarlos.\r\n
+comment2.target=void shouldHaveNoCurrentSymbolWhenEmpty()
+comment2.text=\r\n Una rueda vac\u00EDa no deber\u00EDa tener s\u00EDmbolo actual ni poder girar.\r\n
+comment3.target=void shouldAdvanceCyclically()
+comment3.text=\r\n Deber\u00EDa avanzar de forma c\u00EDclica.\r\n
+comment4.target=void shouldSpinAnyNumberOfSteps()
+comment4.text=\r\n Deber\u00EDa girar con pasos positivos, negativos y mayores que la\r\n cantidad de s\u00EDmbolos.\r\n
+comment5.target=void shouldPlaceOnlyExistingSymbols()
+comment5.text=\r\n Deber\u00EDa colocar un s\u00EDmbolo existente y rechazar uno que no existe.\r\n
+comment6.target=void shouldKeepTrackOfTheCurrentSymbolWhenDeleting()
+comment6.text=\r\n Deber\u00EDa mantener el s\u00EDmbolo que se ve cuando se elimina otro\r\n anterior, y pasar al siguiente cuando se elimina el que se ve.\r\n
+comment7.target=void shouldLockAndUnlock()
+comment7.text=\r\n Deber\u00EDa quedar bloqueada y desbloqueada seg\u00FAn se pida.\r\n
+comment8.target=void shouldSwapContentWithAnotherWheel()
+comment8.text=\r\n Deber\u00EDa intercambiar el contenido con otra rueda.\r\n
+comment9.target=void shouldMatchSymbolsByColor()
+comment9.text=\r\n Deber\u00EDa comparar su s\u00EDmbolo actual con otro por color.\r\n
+numComments=15

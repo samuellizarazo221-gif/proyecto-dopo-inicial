@@ -1,0 +1,13 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=ReverseWheel
+comment0.text=\r\n Rueda inversa (tipo propuesto por el equipo)\: gira al contrario que\r\n las dem\u00E1s. Un giro de k pasos la mueve k s\u00EDmbolos hacia atr\u00E1s. Se\r\n reconoce por su ventana color ciruela.\r\n
+comment1.target=ReverseWheel()
+comment1.text=\r\n Crea una rueda inversa vac\u00EDa con la geometr\u00EDa por defecto.\r\n
+comment2.target=java.lang.String type()
+comment2.text=\r\n Nombre del tipo de esta rueda.\r\n\r\n @return "reverse"\r\n
+comment3.target=int direction()
+comment3.text=\r\n @return -1\: gira hacia atr\u00E1s\r\n
+comment4.target=java.lang.String idleColor()
+comment4.text=\r\n Ventana color ciruela.\r\n
+numComments=5

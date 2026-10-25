@@ -1,0 +1,21 @@
+#BlueJ class context
+#Sat Oct 24 18:10:59 COT 2026
+comment0.target=SymbolTest
+comment0.text=\r\n Pruebas de unidad de Symbol (siempre en modo invisible).\r\n
+comment1.target=void shouldNormalizeColor()
+comment1.text=\r\n Deber\u00EDa guardar el color sin espacios y en min\u00FAsculas.\r\n
+comment2.target=void shouldMoveAndResizeWhileInvisible()
+comment2.text=\r\n Deber\u00EDa poder ubicarse y redimensionarse varias veces sin fallar.\r\n
+comment3.target=void shouldContainTheColorItWasCreatedWith()
+comment3.text=\r\n Deber\u00EDa conservar el color con el que fue creado.\r\n
+comment4.target=void shouldCountDistinctColorsIgnoringNulls()
+comment4.text=\r\n Deber\u00EDa contar los colores distintos ignorando los nulos.\r\n
+comment5.target=void shouldCreateEverySymbolType()
+comment5.text=\r\n Deber\u00EDa crear cada tipo de s\u00EDmbolo por su nombre y no crear los\r\n que no existen.\r\n
+comment6.target=void shouldShrinkEphemeralSymbolUntilItIsAPoint()
+comment6.text=\r\n Un s\u00EDmbolo ef\u00EDmero deber\u00EDa achicarse con cada giro hasta quedar\r\n como un punto, y ah\u00ED quedarse.\r\n
+comment7.target=void shouldAlternateShySymbolEachTimeItIsSelected()
+comment7.text=\r\n Un s\u00EDmbolo t\u00EDmido deber\u00EDa alternar entre oculto y visible cada vez\r\n que queda seleccionado, y empezar visible.\r\n
+comment8.target=void shouldNotChangeNormalSymbolWhenWheelSpinsOrSelectsIt()
+comment8.text=\r\n Un s\u00EDmbolo normal no deber\u00EDa cambiar por los eventos de su rueda.\r\n
+numComments=9

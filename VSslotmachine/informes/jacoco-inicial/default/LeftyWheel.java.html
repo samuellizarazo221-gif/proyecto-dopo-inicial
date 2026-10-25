@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LeftyWheel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCo Coverage Report</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">LeftyWheel.java</span></div><h1>LeftyWheel.java</h1><pre class="source lang-java linenums">/**
+ * Rueda zurda: si hay una rueda a su izquierda, al girar copia su estado
+ * (muestra el símbolo del mismo color que esa rueda). Si no hay rueda a
+ * su izquierda, o si no tiene un símbolo de ese color, gira como una
+ * rueda normal. Se reconoce por su ventana azul claro.
+ */
+public class LeftyWheel extends Wheel
+{
+    /**
+     * Crea una rueda zurda vacía con la geometría por defecto.
+     */
+    public LeftyWheel()
+    {
+<span class="fc" id="L14">        super();</span>
+<span class="fc" id="L15">    }</span>
+
+    /**
+     * Nombre del tipo de esta rueda.
+     *
+     * @return &quot;lefty&quot;
+     */
+    @Override
+    public String type()
+    {
+<span class="nc" id="L25">        return &quot;lefty&quot;;</span>
+    }
+
+    /**
+     * Copia el símbolo que muestra la rueda de la izquierda.
+     *
+     * @param left la rueda que está a su izquierda (null si no hay)
+     * @return true si pudo copiarla; false si debe girar normalmente
+     */
+    @Override
+    boolean follow(Wheel left)
+    {
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        Symbol seen = (left == null) ? null : left.currentSymbol();</span>
+
+<span class="fc bfc" id="L39" title="All 4 branches covered.">        if (seen == null || !hasSymbol(seen.getColor()))</span>
+        {
+<span class="fc" id="L41">            return false;</span>
+        }
+
+<span class="fc" id="L44">        jumpTo(seen.getColor());</span>
+<span class="fc" id="L45">        return true;</span>
+    }
+
+    /**
+     * Ventana azul claro.
+     */
+    @Override
+    protected String idleColor()
+    {
+<span class="fc" id="L54">        return &quot;lightskyblue&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>
