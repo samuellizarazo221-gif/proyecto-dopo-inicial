@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 19:19:47 COT 2026
 comment0.target=SlotMachineC2Test
 comment0.text=\r\n Pruebas de unidad del ciclo 2 de SlotMachine (siempre en modo\r\n invisible)\: intercambiar, fijar y soltar, girar pasos y dejar una\r\n configuraci\u00F3n. La m\u00E1quina de prueba tiene dos ruedas\: la 1 con red y\r\n blue (muestra red) y la 2 con green, yellow y pink (muestra green).\r\n
 comment1.target=void setUp()

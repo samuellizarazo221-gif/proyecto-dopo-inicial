@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 09:01:53 COT 2026
 comment0.target=SymbolTest
 comment0.text=\r\n Pruebas de unidad de Symbol (siempre en modo invisible).\r\n
 comment1.target=void shouldNormalizeColor()

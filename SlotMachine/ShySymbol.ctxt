@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 09:01:53 COT 2026
 comment0.target=ShySymbol
 comment0.text=\r\n S\u00EDmbolo t\u00EDmido\: cada vez que queda seleccionado en la ventana de su\r\n rueda alterna entre visible e invisible. Mientras est\u00E1 invisible la\r\n rueda no muestra ning\u00FAn s\u00EDmbolo (la m\u00E1quina no lo cuenta en su\r\n configuraci\u00F3n). Se dibuja con un aro violeta.\r\n
 comment1.params=color

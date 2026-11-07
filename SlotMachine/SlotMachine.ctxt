@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 19:19:47 COT 2026
 comment0.target=SlotMachine
 comment0.text=\r\n Representa una m\u00E1quina tragamonedas\: administra un conjunto de\r\n ruedas, permite girarlas, consultar sus s\u00EDmbolos y verificar si\r\n se alcanz\u00F3 el jackpot.\r\n\r\n Las posiciones de las ruedas se numeran desde 1. Si una posici\u00F3n es\r\n menor a 1 se usa la 1 y si es mayor que la cantidad de ruedas se usa\r\n la \u00FAltima. La m\u00E1quina nace invisible; se muestra con makeVisible().\r\n Los mensajes de error solo se presentan si la m\u00E1quina est\u00E1 visible.\r\n\r\n Tipos de rueda\: "normal", "lefty" (copia a la rueda de su izquierda al\r\n girar), "rebel" (no se deja bloquear, intercambiar ni eliminar) y\r\n "reverse" (gira al contrario). Tipos de s\u00EDmbolo\: "normal",\r\n "ephemeral" (se encoge en cada giro) y "shy" (alterna entre visible e\r\n invisible cada vez que queda seleccionado).\r\n
 comment1.target=SlotMachine()
@@ -91,6 +91,6 @@ comment8.params=type pos color
 comment8.target=void addSymbol(java.lang.String, int, java.lang.String)
 comment8.text=\r\n Crea un s\u00EDmbolo del tipo y color indicados y lo agrega al final de\r\n la rueda pos. Falla si no hay ruedas, si el color no es un color\r\n CSS v\u00E1lido, si el tipo no existe ("normal", "ephemeral" o "shy") o\r\n si la rueda ya tiene un s\u00EDmbolo de ese color.\r\n\r\n @param type tipo del s\u00EDmbolo\r\n @param pos posici\u00F3n (desde 1) de la rueda\r\n @param color nombre CSS (por ejemplo "red") o valor "\#rrggbb"\r\n
 comment9.params=symbol
-comment9.target=void delSymbol(java.lang.String)
+comment9.target=void delSymbols(java.lang.String)
 comment9.text=\r\n Elimina el s\u00EDmbolo del color indicado de todas las ruedas en las\r\n que aparezca. Falla si ninguna rueda tiene ese s\u00EDmbolo.\r\n\r\n @param symbol color del s\u00EDmbolo a eliminar\r\n
 numComments=36

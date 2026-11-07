@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 19:19:14 COT 2026
 comment0.target=RebelWheel
 comment0.text=\r\n Rueda rebelde\: no se deja bloquear, ni intercambiar, ni eliminar. Se\r\n reconoce por su ventana color salm\u00F3n.\r\n
 comment1.target=RebelWheel()

@@ -13,21 +13,21 @@ import java.util.function.Function;
  * ventana de la rueda) y spun() (la rueda giró). Los tipos distintos
  * del normal se dibujan con un aro de color alrededor para poder
  * distinguirlos. Para agregar un tipo nuevo basta crear la subclase y
- * registrarla en TYPES.
+ * registrarla en types.
  */
 public class Symbol
 {
-    private static final int DEFAULT_X = 20;
-    private static final int DEFAULT_Y = 15;
-    private static final int DEFAULT_DIAMETER = 30;
-    private static final Map<String, Function<String, Symbol>> TYPES =
+    private static final int defaultX = 20;
+    private static final int defaultY = 15;
+    private static final int defaultDiameter = 30;
+    private static final Map<String, Function<String, Symbol>> types =
         new LinkedHashMap<String, Function<String, Symbol>>();
 
     static
     {
-        TYPES.put("normal", Symbol::new);
-        TYPES.put("ephemeral", EphemeralSymbol::new);
-        TYPES.put("shy", ShySymbol::new);
+        types.put("normal", Symbol::new);
+        types.put("ephemeral", EphemeralSymbol::new);
+        types.put("shy", ShySymbol::new);
     }
 
     private String color;
@@ -62,9 +62,9 @@ public class Symbol
         this.color = normalize(color);
         body = new Ring(this.color);
         halo = (haloColor == null) ? null : new Ring(haloColor);
-        boxX = DEFAULT_X;
-        boxY = DEFAULT_Y;
-        fullDiameter = DEFAULT_DIAMETER;
+        boxX = defaultX;
+        boxY = defaultY;
+        fullDiameter = defaultDiameter;
         drawn = false;
     }
 
@@ -78,7 +78,7 @@ public class Symbol
     public static Symbol create(String type, String color)
     {
         String name = (type == null) ? null : type.trim().toLowerCase();
-        Function<String, Symbol> maker = TYPES.get(name);
+        Function<String, Symbol> maker = types.get(name);
 
         return (maker == null) ? null : maker.apply(color);
     }
@@ -312,9 +312,9 @@ public class Symbol
         Ring(String color)
         {
             circle = new Circle();
-            x = DEFAULT_X;
-            y = DEFAULT_Y;
-            size = DEFAULT_DIAMETER;
+            x = defaultX;
+            y = defaultY;
+            size = defaultDiameter;
             circle.changeColor(color);
         }
 

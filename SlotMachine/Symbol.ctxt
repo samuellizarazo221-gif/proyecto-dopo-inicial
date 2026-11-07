@@ -1,7 +1,7 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 09:01:53 COT 2026
 comment0.target=Symbol
-comment0.text=\r\n Representa un s\u00EDmbolo de la m\u00E1quina tragamonedas. Un s\u00EDmbolo se\r\n identifica por su color (nombre CSS o valor hexadecimal) y se dibuja\r\n como un c\u00EDrculo de ese color (Circle de shapes).\r\n\r\n Esta clase es tambi\u00E9n el tipo "normal" y la base de los dem\u00E1s tipos de\r\n s\u00EDmbolos (EphemeralSymbol, ShySymbol). Cada tipo reacciona de forma\r\n distinta a dos eventos de su rueda\: selected() (el s\u00EDmbolo queda en la\r\n ventana de la rueda) y spun() (la rueda gir\u00F3). Los tipos distintos\r\n del normal se dibujan con un aro de color alrededor para poder\r\n distinguirlos. Para agregar un tipo nuevo basta crear la subclase y\r\n registrarla en TYPES.\r\n
+comment0.text=\r\n Representa un s\u00EDmbolo de la m\u00E1quina tragamonedas. Un s\u00EDmbolo se\r\n identifica por su color (nombre CSS o valor hexadecimal) y se dibuja\r\n como un c\u00EDrculo de ese color (Circle de shapes).\r\n\r\n Esta clase es tambi\u00E9n el tipo "normal" y la base de los dem\u00E1s tipos de\r\n s\u00EDmbolos (EphemeralSymbol, ShySymbol). Cada tipo reacciona de forma\r\n distinta a dos eventos de su rueda\: selected() (el s\u00EDmbolo queda en la\r\n ventana de la rueda) y spun() (la rueda gir\u00F3). Los tipos distintos\r\n del normal se dibujan con un aro de color alrededor para poder\r\n distinguirlos. Para agregar un tipo nuevo basta crear la subclase y\r\n registrarla en types.\r\n
 comment1.params=color
 comment1.target=Symbol(java.lang.String)
 comment1.text=\r\n Crea un s\u00EDmbolo normal del color indicado. El color se guarda sin\r\n espacios y en min\u00FAsculas para que dos s\u00EDmbolos del mismo color\r\n siempre sean comparables.\r\n\r\n @param color nombre CSS (por ejemplo "red") o valor "\#rrggbb"\r\n

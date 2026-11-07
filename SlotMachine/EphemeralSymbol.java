@@ -5,8 +5,8 @@
  */
 public class EphemeralSymbol extends Symbol
 {
-    private static final String HALO_COLOR = "orange";
-    private static final int LIFE = 10;
+    private static final String haloColor = "orange";
+    private static final int life = 10;
 
     private int spins;
 
@@ -17,7 +17,7 @@ public class EphemeralSymbol extends Symbol
      */
     public EphemeralSymbol(String color)
     {
-        super(color, HALO_COLOR);
+        super(color, haloColor);
         spins = 0;
     }
 
@@ -49,7 +49,7 @@ public class EphemeralSymbol extends Symbol
     @Override
     int shownDiameter()
     {
-        return fullSize() * (LIFE - Math.min(spins, LIFE)) / LIFE;
+        return fullSize() * (life - Math.min(spins, life)) / life;
     }
 
     /**
@@ -58,7 +58,7 @@ public class EphemeralSymbol extends Symbol
     @Override
     void spun()
     {
-        if (spins < LIFE)
+        if (spins < life)
         {
             spins++;
             refresh();

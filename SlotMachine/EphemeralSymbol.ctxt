@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 09:01:53 COT 2026
 comment0.target=EphemeralSymbol
 comment0.text=\r\n S\u00EDmbolo ef\u00EDmero\: con cada giro de su rueda se va achicando hasta\r\n quedar convertido en un punto. Se dibuja con un aro naranja; dentro\r\n del aro se ve cu\u00E1nto le queda de vida.\r\n
 comment1.params=color

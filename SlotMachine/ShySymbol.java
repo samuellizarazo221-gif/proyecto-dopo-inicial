@@ -6,7 +6,7 @@
  */
 public class ShySymbol extends Symbol
 {
-    private static final String HALO_COLOR = "mediumpurple";
+    private static final String haloColor = "purple";
 
     private boolean hidden;
 
@@ -17,7 +17,7 @@ public class ShySymbol extends Symbol
      */
     public ShySymbol(String color)
     {
-        super(color, HALO_COLOR);
+        super(color, haloColor);
         hidden = false;
     }
 

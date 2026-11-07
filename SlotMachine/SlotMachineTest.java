@@ -132,7 +132,7 @@ public class SlotMachineTest
     public void shouldDeleteSymbolFromEveryWheel()
     {
         machine.addSymbol(2, "red");
-        machine.delSymbol("red");
+        machine.delSymbols("red");
         assertTrue(machine.ok());
         assertEquals(3, machine.symbols().length);
         assertEquals("blue", machine.configuration()[0]);
@@ -144,7 +144,7 @@ public class SlotMachineTest
     @Test
     public void shouldNotDeleteMissingSymbol()
     {
-        machine.delSymbol("pink");
+        machine.delSymbols("pink");
         assertFalse(machine.ok());
         assertEquals(4, machine.symbols().length);
     }

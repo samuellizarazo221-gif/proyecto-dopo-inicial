@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 19:19:47 COT 2026
 comment0.target=SlotMachineC4Test
 comment0.text=\r\n Pruebas de unidad del ciclo 4 (tipos de ruedas y de s\u00EDmbolos). Todas\r\n se ejecutan con la m\u00E1quina invisible.\r\n
 comment1.target=void setUp()

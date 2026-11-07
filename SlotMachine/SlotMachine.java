@@ -21,15 +21,15 @@ import javax.swing.JOptionPane;
  */
 public final class SlotMachine
 {
-    private static final int BASE_X = 60;
-    private static final int BASE_Y = 80;
-    private static final int AREA_WIDTH = 900;
-    private static final int MAX_SPACING = 90;
-    private static final int MIN_SPACING = 4;
-    private static final int MIN_SIZE = 4;
-    private static final int MARGIN = 20;
-    private static final String NORMAL_LOOK = "black";
-    private static final String WINNING_LOOK = "gold";
+    private static final int baseX = 60;
+    private static final int baseY = 80;
+    private static final int areaWidth = 900;
+    private static final int maxSpacing = 90;
+    private static final int minSpacing = 4;
+    private static final int minSize = 4;
+    private static final int margin = 20;
+    private static final String normalLook = "black";
+    private static final String winning_Look = "gold";
 
     private ArrayList<Wheel> wheels;
     private boolean visible;
@@ -51,7 +51,7 @@ public final class SlotMachine
         cabinet = new Rectangle();
         cabinetX = 70;
         cabinetY = 15;
-        cabinet.changeColor(NORMAL_LOOK);
+        cabinet.changeColor(normalLook);
     }
 
     /**
@@ -253,7 +253,7 @@ public final class SlotMachine
      *
      * @param symbol color del símbolo a eliminar
      */
-    public void delSymbol(String symbol)
+    public void delSymbols(String symbol)
     {
         String color = Symbol.normalize(symbol);
         boolean removed = false;
@@ -510,7 +510,7 @@ public final class SlotMachine
         makeInvisible();
         wheels.clear();
         winningLook = false;
-        cabinet.changeColor(NORMAL_LOOK);
+        cabinet.changeColor(normalLook);
         lastOperationOk = true;
     }
 
@@ -734,7 +734,7 @@ public final class SlotMachine
         if (winning != winningLook)
         {
             winningLook = winning;
-            cabinet.changeColor(winning ? WINNING_LOOK : NORMAL_LOOK);
+            cabinet.changeColor(winning ? winning_Look : normalLook);
             redrawAll();
         }
     }
@@ -778,17 +778,17 @@ public final class SlotMachine
             return;
         }
 
-        int spacing = Math.max(MIN_SPACING, Math.min(MAX_SPACING, AREA_WIDTH / count));
-        int size = Math.max(MIN_SIZE, spacing * 2 / 3);
+        int spacing = Math.max(minSpacing, Math.min(maxSpacing, areaWidth / count));
+        int size = Math.max(minSize, spacing * 2 / 3);
 
         for (int i = 0; i < count; i++)
         {
-            wheels.get(i).layout(BASE_X + i * spacing, BASE_Y, size, size);
+            wheels.get(i).layout(baseX + i * spacing, baseY, size, size);
         }
 
-        int x = BASE_X - MARGIN;
-        int y = BASE_Y - MARGIN;
-        cabinet.changeSize(size + 2 * MARGIN, (count - 1) * spacing + size + 2 * MARGIN);
+        int x = baseX - margin;
+        int y = baseY - margin;
+        cabinet.changeSize(size + 2 * margin, (count - 1) * spacing + size + 2 * margin);
         cabinet.moveHorizontal(x - cabinetX);
         cabinet.moveVertical(y - cabinetY);
         cabinetX = x;

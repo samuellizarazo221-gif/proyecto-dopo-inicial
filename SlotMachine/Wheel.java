@@ -6,19 +6,15 @@ import java.util.ArrayList;
  * ellos está mostrando actualmente. Todos los símbolos de una rueda
  * comparten la misma ventana, así que solo el símbolo actual se dibuja.
  *
- * Es la base de los demás tipos de rueda (LeftyWheel, RebelWheel y
- * ReverseWheel), que la extienden redefiniendo los ganchos type(),
- * idleColor(), direction(), follow(), isLockable(), isSwappable() e
- * isRemovable().
  */
 public class Wheel
 {
-    private static final String LOCKED_COLOR = "lightgray";
-    private static final int FAST_PAUSE = 40;
-    private static final int SLOW_PAUSE = 150;
-    private static final int SLOW_STEPS = 3;
-    private static final int SLOT_DEFAULT_X = 70;
-    private static final int SLOT_DEFAULT_Y = 15;
+    private static final String lockedColor = "lightgray";
+    private static final int fastPause = 40;
+    private static final int slowPause = 150;
+    private static final int slowSteps = 3;
+    private static final int slotDefaultX = 70;
+    private static final int slotDefaultY = 15;
 
     private ArrayList<Symbol> symbols;
     private Rectangle slot;
@@ -53,8 +49,8 @@ public class Wheel
         locked = false;
         visible = false;
         slot = new Rectangle();
-        xPosition = SLOT_DEFAULT_X;
-        yPosition = SLOT_DEFAULT_Y;
+        xPosition = slotDefaultX;
+        yPosition = slotDefaultY;
         slot.changeColor("white");
         layout(x, y, width, height);
     }
@@ -104,7 +100,7 @@ public class Wheel
     public void lock()
     {
         locked = true;
-        slot.changeColor(LOCKED_COLOR);
+        slot.changeColor(lockedColor);
         refresh();
     }
 
@@ -472,7 +468,7 @@ public class Wheel
      */
     private void pause(int remaining)
     {
-        int time = (remaining <= SLOW_STEPS) ? SLOW_PAUSE : FAST_PAUSE;
+        int time = (remaining <= slowSteps) ? slowPause : fastPause;
         Canvas.getCanvas().wait(time);
     }
 

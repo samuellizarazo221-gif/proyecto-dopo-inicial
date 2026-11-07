@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 19:19:14 COT 2026
 comment0.target=ReverseWheel
 comment0.text=\r\n Rueda inversa (tipo propuesto por el equipo)\: gira al contrario que\r\n las dem\u00E1s. Un giro de k pasos la mueve k s\u00EDmbolos hacia atr\u00E1s. Se\r\n reconoce por su ventana color ciruela.\r\n
 comment1.target=ReverseWheel()

@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sat Oct 24 18:10:59 COT 2026
+#Fri Nov 06 19:19:14 COT 2026
 comment0.target=LeftyWheel
 comment0.text=\r\n Rueda zurda\: si hay una rueda a su izquierda, al girar copia su estado\r\n (muestra el s\u00EDmbolo del mismo color que esa rueda). Si no hay rueda a\r\n su izquierda, o si no tiene un s\u00EDmbolo de ese color, gira como una\r\n rueda normal. Se reconoce por su ventana azul claro.\r\n
 comment1.target=LeftyWheel()
